@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:UP02.Pages.Elements"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="EditAudiences" Background="#FFEAEBEC">
-
+      Title="EditAudiences" Background="White">
     <Page.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Template">

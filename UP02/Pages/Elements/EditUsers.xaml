@@ -25,47 +25,54 @@
         </Style>
     </Page.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="10" VerticalAlignment="Center">
-            <TextBlock Text="Фамилия" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
-            <TextBox x:Name="LastName" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
 
-            <TextBlock Text="Имя" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
-            <TextBox x:Name="FirstName" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="10" VerticalAlignment="Center">
+                <TextBlock Text="Фамилия" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="LastName" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
 
-            <TextBlock Text="Отчество" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
-            <TextBox x:Name="MiddleName" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+                <TextBlock Text="Имя" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="FirstName" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
 
-            <TextBlock Text="Роль" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
-            <ComboBox x:Name="Role" Margin="0,0,0,5" Height="25" Width="250" Background="White" SelectedValuePath="Content">
-                <ComboBoxItem>Администратор</ComboBoxItem>
-                <ComboBoxItem>Преподаватель</ComboBoxItem>
-                <ComboBoxItem>Сотрудник</ComboBoxItem>
-            </ComboBox>
+                <TextBlock Text="Отчество" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="MiddleName" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
 
-            <TextBlock Text="Логин" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
-            <TextBox x:Name="Login" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+                <TextBlock Text="Роль" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+                <ComboBox x:Name="Role" Margin="0,0,0,5" Height="25" Width="250" Background="White" SelectedValuePath="Content">
+                    <ComboBoxItem>Администратор</ComboBoxItem>
+                    <ComboBoxItem>Преподаватель</ComboBoxItem>
+                    <ComboBoxItem>Сотрудник</ComboBoxItem>
+                </ComboBox>
 
-            <TextBlock Text="Пароль" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
-            <PasswordBox x:Name="Password" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+                <TextBlock Text="Логин" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="Login" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
 
-            <TextBlock Text="Электронная почта" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
-            <TextBox x:Name="Email" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+                <TextBlock Text="Пароль" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+                <PasswordBox x:Name="Password" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
 
-            <TextBlock Text="Телефон" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
-            <TextBox x:Name="Phone" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+                <TextBlock Text="Электронная почта" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="Email" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
 
-            <TextBlock Text="Адрес" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
-            <TextBox x:Name="Address" Margin="0,0,0,10" Height="25" Width="250" Background="White"/>
+                <TextBlock Text="Телефон" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="Phone" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15">
-                <Button Click="SaveChangesClick" Background="#FF718A9E" Style="{StaticResource RoundedButtonStyle}" Margin="0,0,15,0" Width="60" Height="40">
-                    <Image Source="pack://application:,,,/Images/update_icon.png" Height="30" Width="30"/>
-                </Button>
-                <Button Click="UndoСhangesClick" Background="#FF718A9E" Style="{StaticResource RoundedButtonStyle}" Width="60" Height="40">
-                    <Image Source="pack://application:,,,/Images/back_icon.png" Height="30" Width="30"/>
-                </Button>
+                <TextBlock Text="Адрес" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="Address" Margin="0,0,0,10" Height="25" Width="250" Background="White"/>
             </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15" Grid.Row="1">
+            <Button Click="SaveChangesClick" Background="#FF718A9E" Style="{StaticResource RoundedButtonStyle}" Margin="0,0,15,0" Width="60" Height="40">
+                <Image Source="pack://application:,,,/Images/update_icon.png" Height="30" Width="30"/>
+            </Button>
+            <Button Click="UndoСhangesClick" Background="#FF718A9E" Style="{StaticResource RoundedButtonStyle}" Width="60" Height="40">
+                <Image Source="pack://application:,,,/Images/back_icon.png" Height="30" Width="30"/>
+            </Button>
         </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </Page>

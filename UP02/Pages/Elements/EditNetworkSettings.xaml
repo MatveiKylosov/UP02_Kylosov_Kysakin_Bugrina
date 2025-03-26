@@ -25,23 +25,32 @@
         </Style>
     </Page.Resources>
 
-    <StackPanel Margin="20" VerticalAlignment="Center">
-        <Label Content="Оборудование:" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
-        <ComboBox x:Name="Equipment" Margin="0,0,0,10" Height="30" Background="White"/>
+    <Grid Margin="20" >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
 
-        <TextBlock Text="IP адрес" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
-        <TextBox x:Name="IPAddress" Margin="0,0,0,10" Height="30" Background="White"/>
+        <ScrollViewer>
+            <StackPanel>
+                <Label Content="Оборудование:" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
+                <ComboBox x:Name="Equipment" Margin="0,0,0,10" Height="30" Background="White"/>
 
-        <TextBlock Text="Маска сети" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
-        <TextBox x:Name="SubnetMask" Margin="0,0,0,10" Height="30" Background="White"/>
+                <TextBlock Text="IP адрес" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="IPAddress" Margin="0,0,0,10" Height="30" Background="White"/>
 
-        <TextBlock Text="Шлюз" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
-        <TextBox x:Name="Gateway" Margin="0,0,0,10" Height="30" Background="White"/>
+                <TextBlock Text="Маска сети" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="SubnetMask" Margin="0,0,0,10" Height="30" Background="White"/>
 
-        <TextBlock Text="DNS сервер" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
-        <TextBox x:Name="DNSServers" Margin="0,0,0,15" Height="30" Background="White"/>
+                <TextBlock Text="Шлюз" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="Gateway" Margin="0,0,0,10" Height="30" Background="White"/>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15">
+                <TextBlock Text="DNS сервер" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
+                <TextBox x:Name="DNSServers" Margin="0,0,0,15" Height="30" Background="White"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Grid.Row="1">
             <Button Click="SaveChangesClick" Background="#FF718A9E" Style="{StaticResource RoundedButtonStyle}" Margin="0,0,15,0" Width="60" Height="40">
                 <Image Source="pack://application:,,,/Images/update_icon.png" Height="30" Width="30"/>
             </Button>
@@ -49,5 +58,5 @@
                 <Image Source="pack://application:,,,/Images/back_icon.png" Height="30" Width="30"/>
             </Button>
         </StackPanel>
-    </StackPanel>
+    </Grid>
 </Page>
