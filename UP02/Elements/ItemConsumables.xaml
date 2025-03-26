@@ -108,6 +108,9 @@
                 <Button x:Name="UpdateButton" Click="UpdateClick" Background="#9EA1A2" HorizontalAlignment="Right" Margin="0,80,36,0" VerticalAlignment="Top" Height="45" Width="45" Style="{StaticResource RoundedButtonStyle}">
                     <Image Source="pack://application:,,,/Images/update_icon.png" Height="42" Width="41" />
                 </Button>
+                <Button Click="ExportConsumablesClick" ToolTip="Приём-передача расходников" Background="#9EA1A2" HorizontalAlignment="Right" Margin="0,137,36,0" VerticalAlignment="Top" Height="45" Width="45" Style="{StaticResource RoundedButtonStyle}">
+                    <Image Source="/Images/document_icon.png" Height="42" Width="41" />
+                </Button>
             </Grid>
         </Grid>
     </Border>

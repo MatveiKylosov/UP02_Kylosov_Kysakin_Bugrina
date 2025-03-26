@@ -20,6 +20,8 @@ using UP02.Interfaces;
 using UP02.Models;
 using UP02.Pages.Elements;
 using UP02.ViewModels;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
 
 namespace UP02.Elements
 {
@@ -202,6 +204,53 @@ namespace UP02.Elements
         private void _RecordDelete(object sender, EventArgs e)
         {
             RecordDelete?.Invoke(this, e);
+        }
+        private void ExportConsumablesClick(object sender, RoutedEventArgs e)
+        {
+            string currentDate = DateTime.Now.ToString("dd.MM.yyyy");
+            string fileName = $"Акт_приёма-передачи_{Consumable.Name}_{currentDate.Replace(".", "_")}.docx";
+            using (var context = new DatabaseContext())
+            {
+                var responsibleUser = context.Users.FirstOrDefault(u => u.UserID == Consumable.TempResponsibleUserID);
+                if (responsibleUser == null)
+                {
+                    MessageBox.Show("Информация об ответственном отсутствует.");
+                    return;
+                }
+                using (DocX document = DocX.Create(fileName))
+                {
+                    document.InsertParagraph("АКТ\nприёма-передачи расходных материалов\n\n").Font("Times New Roman").FontSize(12).Alignment = Alignment.center;
+                    var locationAndDate = document.InsertParagraph($"г. Пермь {currentDate}\n\n").Font("Times New Roman").FontSize(12).Alignment = Alignment.left;
+                    string fullName = $"{responsibleUser.LastName} {responsibleUser.FirstName[0]}.{responsibleUser.MiddleName[0]}.";
+                    var mainText = document.InsertParagraph(
+                        $"КГАПОУ Пермский Авиационный техникум им. А.Д. Швецова в целях " +
+                        $"обеспечения необходимым оборудованием для исполнения должностных " +
+                        $"обязанностей передаёт сотруднику {fullName}, а сотрудник " +
+                        $"принимает от учебного учреждения следующие расходные материалы:\n\n").Font("Times New Roman").FontSize(12).Alignment = Alignment.center;
+                    var consumableInfo = document.InsertParagraph(
+                        $"{Consumable.TypeConsumables?.Type} \"{Consumable.Name}\", " +
+                        $"в количестве {Consumable.Quantity ?? 1} шт.\n\n").Font("Times New Roman").FontSize(12).Alignment = Alignment.center;
+                    var signature = document.InsertParagraph(
+                        $"\n\n{responsibleUser.LastName} {responsibleUser.FirstName[0]}.{responsibleUser.MiddleName[0]}. " +
+                        $"____________________\n\n" +
+                        $"М.П.").Font("Times New Roman").FontSize(12).Alignment = Alignment.left;
+                    try
+                    {
+                        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                        string filePath = System.IO.Path.Combine(desktopPath, fileName);
+                        document.SaveAs(filePath);
+                        MessageBox.Show($"Генерация прошла успешно. Путь к файлу: {filePath}");
+                        Process.Start(new ProcessStartInfo(filePath)
+                        {
+                            UseShellExecute = true
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка при сохранении документа: {ex.Message}");
+                    }
+                }
+            }
         }
     }
 }
