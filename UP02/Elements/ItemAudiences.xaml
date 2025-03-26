@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="UP02.Elements.ItemAudiences"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UP02.Elements"
+                         mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!-- Стиль для кнопок с закругленными углами -->
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="#FFEAEBEC" Margin="10,10,10,10" Padding="5">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Label x:Name="Name" Content="{Binding Name}" FontWeight="Bold" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Label x:Name="ShortName" Content="{Binding ShortName}" FontWeight="Bold" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Label Content="Ответственный:" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                    <Label x:Name="ResponsibleUser" Content="{Binding ResponsibleUser.FullName}"  FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" Margin="130,0,0,0" VerticalAlignment="Center"/>
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Label Content="Временный ответственный: " FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.354"/>
+                    <Label x:Name="TempResponsibleUser" Content="{Binding TempResponsibleUser.FullName}" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" Margin="210,0,0,0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.354"/>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Column="2">
+                <Button Click="DeleteClick" Background="#9EA1A2" HorizontalAlignment="Right" Margin="0,23,36,0" VerticalAlignment="Top" Height="45" Width="45" Style="{StaticResource RoundedButtonStyle}">
+                    <Image Source="pack://application:,,,/Images/delete_icon.png" Height="42" Width="41" />
+                </Button>
+                <Button Click="UpdateClick" Background="#9EA1A2" HorizontalAlignment="Right" Margin="0,80,36,0" VerticalAlignment="Top" Height="45" Width="45" Style="{StaticResource RoundedButtonStyle}">
+                    <Image Source="pack://application:,,,/Images/update_icon.png" Height="42" Width="41" />
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
