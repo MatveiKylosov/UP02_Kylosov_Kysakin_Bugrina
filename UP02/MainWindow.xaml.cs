@@ -16,8 +16,31 @@ namespace UP02;
 /// </summary>
 public partial class MainWindow : Window
 {
+    public static Frame mainFrame = new Frame();
     public MainWindow()
     {
         InitializeComponent();
+        mainFrame = this.MainFrame;
+    }
+
+    public static void ClearFrame()
+    {
+        mainFrame.Content = null;
+    }
+
+    public static void OpenPage(Page page)
+    {
+        if (mainFrame != null)
+        {
+            mainFrame.Navigate(page);
+        }
+    }
+
+    public static void GoBack()
+    {
+        if (mainFrame != null && mainFrame.CanGoBack)
+        {
+            mainFrame.GoBack();
+        }
     }
 }
