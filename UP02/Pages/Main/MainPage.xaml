@@ -1,0 +1,68 @@
+﻿<Page x:Class="UP02.Pages.Main.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UP02.Pages.Main"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainPage">
+    <Page.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <!-- Первый цвет: #9EA1A2 (серый) -->
+            <GradientStop Color="#FFC5C5C5" Offset="0.0"/>
+            <!-- Второй цвет: #E41613 (красный) -->
+            <GradientStop Color="#FFFF3B38" Offset="0.3"/>
+            <!-- Третий цвет: #0060AC (синий) -->
+            <GradientStop Color="#FF257DC3" Offset="0.7"/>
+            <!-- Возврат к серому цвету -->
+            <GradientStop Color="#FFC5C5C5" Offset="1.0"/>
+        </LinearGradientBrush>
+    </Page.Background>
+
+    <Page.Resources>
+        <!-- Стиль для кнопок с закругленными углами -->
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180px"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden" FlowDirection="RightToLeft" >
+            <StackPanel Margin="5">
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Аудитории" Click="AudiencesButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Расходники" Click="ConsumablesButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Направления" Click="DirectionsButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Оборудование" Click="EquipmentButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Расходники оборудования" Click="EquipmentConsumablesButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Модели оборудования" Click="EquipmentModelsButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Инвентаризация" Click="InventoriesButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Сетевые настройки" Click="NetworkSettingsButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Программное обеспечение" Click="SoftwareButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Разработчики ПО" Click="SoftwareDevelopersButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Статусы" Click="StatusesButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Тип расходников" Click="TypesConsumablesButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Пользователи" Click="UsersButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Импорт" Click="ImportButton_Click"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Column="1" >
+            <Frame x:Name="ContentFrame"/>
+            <StackPanel x:Name="MainContentPanel" Visibility="Hidden"/>
+        </Grid>
+    </Grid>
+</Page>
