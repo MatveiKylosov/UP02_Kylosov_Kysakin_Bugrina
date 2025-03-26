@@ -1,0 +1,71 @@
+﻿<Page x:Class="UP02.Pages.Elements.EditUsers"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UP02.Pages.Elements"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EditUsers" Background="#FFEAEBEC">
+
+    <Page.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="1" 
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="10" VerticalAlignment="Center">
+            <TextBlock Text="Фамилия" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+            <TextBox x:Name="LastName" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+
+            <TextBlock Text="Имя" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+            <TextBox x:Name="FirstName" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+
+            <TextBlock Text="Отчество" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+            <TextBox x:Name="MiddleName" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+
+            <TextBlock Text="Роль" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+            <ComboBox x:Name="Role" Margin="0,0,0,5" Height="25" Width="250" Background="White" SelectedValuePath="Content">
+                <ComboBoxItem>Администратор</ComboBoxItem>
+                <ComboBoxItem>Преподаватель</ComboBoxItem>
+                <ComboBoxItem>Сотрудник</ComboBoxItem>
+            </ComboBox>
+
+            <TextBlock Text="Логин" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+            <TextBox x:Name="Login" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+
+            <TextBlock Text="Пароль" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+            <PasswordBox x:Name="Password" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+
+            <TextBlock Text="Электронная почта" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+            <TextBox x:Name="Email" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+
+            <TextBlock Text="Телефон" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+            <TextBox x:Name="Phone" Margin="0,0,0,5" Height="25" Width="250" Background="White"/>
+
+            <TextBlock Text="Адрес" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold"/>
+            <TextBox x:Name="Address" Margin="0,0,0,10" Height="25" Width="250" Background="White"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15">
+                <Button Click="SaveChangesClick" Background="#FF718A9E" Style="{StaticResource RoundedButtonStyle}" Margin="0,0,15,0" Width="60" Height="40">
+                    <Image Source="pack://application:,,,/Images/update_icon.png" Height="30" Width="30"/>
+                </Button>
+                <Button Click="UndoСhangesClick" Background="#FF718A9E" Style="{StaticResource RoundedButtonStyle}" Width="60" Height="40">
+                    <Image Source="pack://application:,,,/Images/back_icon.png" Height="30" Width="30"/>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
