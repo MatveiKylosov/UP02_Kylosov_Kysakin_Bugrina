@@ -7,6 +7,8 @@ using UP02.Context;
 using UP02.Helpers;
 using UP02.Interfaces;
 using UP02.Models;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
 
 namespace UP02.Elements
 {
@@ -130,6 +132,165 @@ namespace UP02.Elements
         private void _RecordDelete(object sender, EventArgs e)
         {
             RecordDelete?.Invoke(this, e);
+        }
+        /// <summary>
+        /// Обработчик клика по кнопке "Экспорт Акт приёма-передачи". Генерирует документ в формате Word.
+        /// </summary>
+        private void ExportAcceptanceClick(object sender, RoutedEventArgs e)
+        {
+            string currentDate = DateTime.Now.ToString("dd.MM.yyyy");
+            using var databaseContext = new DatabaseContext();
+            Equipment? equipment;
+
+            try
+            {
+                equipment = databaseContext.Equipment
+                    .Include(e => e.Model)
+                    .Include(e => e.ResponsibleUser)
+                    .FirstOrDefault(e => e.EquipmentID == Equipment.EquipmentID);
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                return;
+            }
+
+            if (equipment == null)
+            {
+                MessageBox.Show("Оборудование не найдено в базе данных.");
+                return;
+            }
+
+            var responsibleUser = equipment.TempResponsibleUser ?? equipment.ResponsibleUser;
+            if (responsibleUser == null)
+            {
+                MessageBox.Show("Не указан ответственный за оборудование.");
+                return;
+            }
+
+            string fileName = $"Акт_приёма-передачи_{equipment.Name}_{currentDate.Replace(".", "_")}.docx";
+            using (DocX document = DocX.Create(fileName))
+            {
+                var title = document.InsertParagraph("АКТ\nприема-передачи оборудования\n\n");
+                title.Font("Times New Roman").FontSize(12).Alignment = Alignment.center;
+                var locationDate = document.InsertParagraph($"г. Пермь {currentDate}\n\n");
+                locationDate.Font("Times New Roman").FontSize(12).Alignment = Alignment.left;
+                string userFullName = $"{responsibleUser.LastName} {responsibleUser.FirstName[0]}.{responsibleUser.MiddleName[0]}.";
+                var mainText = document.InsertParagraph(
+                    $"КГАПОУ Пермский Авиационный техникум им. А.Д. Швецова в целях " +
+                    $"обеспечения необходимым оборудованием для исполнения должностных " +
+                    $"обязанностей передаёт сотруднику {userFullName}, а сотрудник " +
+                    $"принимает от учебного учреждения следующее оборудование:\n\n");
+                mainText.Font("Times New Roman").FontSize(12).Alignment = Alignment.both;
+                var equipmentInfo = document.InsertParagraph(
+                    $"{equipment.Name}, {equipment.Model?.Name}, " +
+                    $"серийный номер {equipment.InventoryNumber}, " +
+                    $"стоимостью {equipment.Cost?.ToString("N2")} руб.\n\n\n");
+                equipmentInfo.Font("Times New Roman").FontSize(12).Alignment = Alignment.left;
+                var signature = document.InsertParagraph(
+                    $"{responsibleUser.LastName} {responsibleUser.FirstName[0]}.{responsibleUser.MiddleName[0]}. " +
+                    "____________________     ________________");
+                signature.Font("Times New Roman").FontSize(12).Alignment = Alignment.left;
+                try
+                {
+                    string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    string filePath = System.IO.Path.Combine(desktopPath, fileName);
+                    document.SaveAs(filePath);
+                    MessageBox.Show($"Генерация прошла успешно. Путь к файлу: {filePath}");
+                    Process.Start(new ProcessStartInfo(filePath)
+                    {
+                        UseShellExecute = true
+                    });
+                }
+                catch (Exception ex)
+                {
+                    UIHelper.ErrorConnection(databaseContext, ex.Message);
+                    MessageBox.Show($"Ошибка при сохранении документа: {ex.Message}");
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик клика по кнопке "Экспорт Акт приёма-передачи (временно)". Генерирует документ в формате Word.
+        /// </summary>
+        private void ExportTemporarilyAcceptanceClick(object sender, RoutedEventArgs e)
+        {
+            string currentDate = DateTime.Now.ToString("dd.MM.yyyy");
+            Equipment? equipment;
+            using var databaseContext = new DatabaseContext();
+            try
+            {
+                equipment = databaseContext.Equipment
+                .Include(e => e.Model)
+                .Include(e => e.TempResponsibleUser)
+                .FirstOrDefault(e => e.EquipmentID == Equipment.EquipmentID);
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                return;
+            }
+
+            if (equipment == null)
+            {
+                MessageBox.Show("Оборудование не найдено в базе данных.");
+                return;
+            }
+            if (equipment.TempResponsibleUser == null)
+            {
+                MessageBox.Show("Не указан временно ответственный за оборудование.");
+                return;
+            }
+            string fileName = $"Акт_приёма-передачи_временное_{equipment.Name}_{currentDate.Replace(".", "_")}.docx";
+            using (DocX document = DocX.Create(fileName))
+            {
+                var title = document.InsertParagraph("АКТ\nприема-передачи оборудования на временное пользование\n\n");
+                title.Font("Times New Roman").FontSize(12).Alignment = Alignment.center;
+                var locationDate = document.InsertParagraph($"г. Пермь {currentDate}\n\n");
+                locationDate.Font("Times New Roman").FontSize(12).Alignment = Alignment.left;
+                string userFullName = $"{equipment.TempResponsibleUser.LastName} " +
+                                    $"{equipment.TempResponsibleUser.FirstName[0]}." +
+                                    $"{equipment.TempResponsibleUser.MiddleName[0]}.";
+                var mainText = document.InsertParagraph(
+                    $"КГАПОУ Пермский Авиационный техникум им. А.Д. Швецова в целях " +
+                    $"обеспечения необходимым оборудованием для исполнения должностных " +
+                    $"обязанностей передаёт сотруднику {userFullName}, а сотрудник " +
+                    $"принимает от учебного учреждения следующее оборудование:\n\n");
+                mainText.Font("Times New Roman").FontSize(12).Alignment = Alignment.both;
+                var equipmentInfo = document.InsertParagraph(
+                    $"{equipment.Name}, {equipment.Model?.Name}, " +
+                    $"серийный номер {equipment.InventoryNumber}, " +
+                    $"стоимостью {equipment.Cost?.ToString("N2")} руб.\n\n");
+                equipmentInfo.Font("Times New Roman").FontSize(12).Alignment = Alignment.left;
+                var returnText = document.InsertParagraph(
+                    "По окончанию должностных работ «__» ____________ 20___ года, работник " +
+                    "обязуется вернуть полученное оборудование.\n\n");
+                returnText.Font("Times New Roman").FontSize(12).Alignment = Alignment.both;
+                var signature = document.InsertParagraph(
+                    $"{equipment.TempResponsibleUser.LastName} " +
+                    $"{equipment.TempResponsibleUser.FirstName[0]}." +
+                    $"{equipment.TempResponsibleUser.MiddleName[0]}. " +
+                    "____________________     ________________");
+                signature.Font("Times New Roman").FontSize(12).Alignment = Alignment.left;
+                try
+                {
+                    string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    string filePath = System.IO.Path.Combine(desktopPath, fileName);
+                    document.SaveAs(filePath);
+                    MessageBox.Show($"Генерация прошла успешно. Путь к файлу: {filePath}");
+                    Process.Start(new ProcessStartInfo(filePath)
+                    {
+                        UseShellExecute = true
+                    });
+                }
+                catch (Exception ex)
+                {
+                    UIHelper.ErrorConnection(databaseContext, ex.Message);
+                    MessageBox.Show($"Ошибка при сохранении документа: {ex.Message}");
+                    return;
+                }
+            }
         }
     }
 }
