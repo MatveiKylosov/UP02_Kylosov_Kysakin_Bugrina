@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="UP02.Elements.ItemNetworkSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UP02.Elements"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!-- Стиль для кнопок с закругленными углами -->
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#FFEAEBEC" Margin="10,10,10,10">
+        <StackPanel>
+            <Label x:Name="Equipment" Content="{Binding Equipment.Name}" FontWeight="Bold" FontSize="15" Foreground="#0060AC" />
+            <Label x:Name="IPAddress" Content="{Binding IPAddress}" FontSize="15" Foreground="#0060AC" />
+            <Label x:Name="SubnetMask" Content="{Binding SubnetMask}" FontSize="15" Foreground="#0060AC" />
+            <Label x:Name="Gateway" Content="{Binding Gateway}" FontSize="15" Foreground="#0060AC"/>
+            <Label x:Name="DNSServer" Content="{Binding DNSServers}" FontSize="15" Foreground="#0060AC"/>
+            <!-- Кнопка для проверки соединения -->
+            <Button Width="150" Content="Проверить соединение"  Background="#9EA1A2" Foreground="#FFEAEBEC" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="15" HorizontalAlignment="Left" Click="CheckConnection"/>
+            <!-- Прогресс-бар в режиме ожидания, скрыт по умолчанию -->
+            <ProgressBar x:Name="ConnectionProgressBar" IsIndeterminate="True" Visibility="Collapsed" Height="20" Margin="15"/>
+        </StackPanel>
+        <Button Click="DeleteClick" Background="#9EA1A2" HorizontalAlignment="Right" Margin="0,23,36,0" VerticalAlignment="Top" Height="45" Width="45" Style="{StaticResource RoundedButtonStyle}">
+            <Image Source="pack://application:,,,/Images/delete_icon.png" Height="42" Width="41" />
+        </Button>
+        <Button Click="UpdateClick" Background="#9EA1A2" HorizontalAlignment="Right" Margin="0,80,36,0" VerticalAlignment="Top" Height="45" Width="45" Style="{StaticResource RoundedButtonStyle}">
+            <Image Source="pack://application:,,,/Images/update_icon.png" Height="42" Width="41" />
+        </Button>
+    </Grid>
+</UserControl>
