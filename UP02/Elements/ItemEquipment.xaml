@@ -1,0 +1,157 @@
+﻿<UserControl x:Class="UP02.Elements.ItemEquipment"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UP02.Elements"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <!-- Стиль для кнопок с закругленными углами -->
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="#FFEAEBEC" Margin="10" Padding="10" >
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height= "3*"/>
+                        <RowDefinition Height= "1*"/>
+                        <RowDefinition Height= "1*"/>
+                        <RowDefinition Height= "1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image x:Name="Photo" Grid.Row="0" Height="100" Width="100"/>
+
+                    <Grid Grid.Row="1">
+                        <Label x:Name="LabelAudience" Content="{Binding Audience.Name}" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Label x:Name="LabelInventoryNumber" Content="{Binding InventoryNumber}" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Row="3">
+                        <Label x:Name="LabelCost" Content="{Binding Cost}" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Margin="0,10,0,0">
+                        <Label x:Name="LabelName" Content="{Binding Name}" FontWeight="Bold" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <Label Content="Ответственный:" FontSize="15" Foreground="#0060AC"  VerticalAlignment="Center"/>
+                        <Label Content="{Binding ResponsibleUser.FullName}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="115, 0,0,0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Label Content="Временно-ответственный:" FontSize="15" Foreground="#0060AC"  VerticalAlignment="Center"/>
+                        <Label Content="{Binding TempResponsibleUser.FullName}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="185, 0,0,0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="3">
+                        <Label Content="{Binding Direction.Name}" FontWeight="Bold" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Row="4">
+                        <Label Content="Статус: " FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Height="31"/>
+                        <Label Content="{Binding Status.Name}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="5">
+                        <Label Content="Модель: " FontSize="15" Foreground="#0060AC"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                        <Label Content="{Binding Model.Name}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="60,0,0,0" Grid.ColumnSpan="2"/>
+                    </Grid>
+
+                    <Grid Grid.Row="6" MaxHeight="150" MaxWidth="650" HorizontalAlignment="Left" Margin="0,0,0,10">
+                        <Label Content="Комментарий: " FontSize="15" Foreground="#0060AC"  VerticalAlignment="Top" />
+
+                        <TextBox Margin="125,5, 50,0" VerticalAlignment="Top" 
+                             FontSize="15" Foreground="#0060AC" TextWrapping="Wrap" Background="#FFEAEBEC" BorderThickness="0"
+                             Text="{Binding Comment}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="True"/>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Column="2" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:Name="locationHistory" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" IsReadOnly="True" MaxHeight="300" MinWidth="340" MaxWidth="340" Width="340">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding ChageDateString}" MinWidth="100" MaxWidth="100"/>
+                            <DataGridTextColumn Header="Аудитория" Binding="{Binding Audience.Name}" MinWidth="100" MaxWidth="100"/>
+                            <DataGridTemplateColumn Header="Комментарий" MinWidth="240" MaxWidth="240"  Width="240">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Comment}" TextWrapping="Wrap"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <DataGrid Grid.Row="1" x:Name="responsibleUserHistory" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" IsReadOnly="True" MaxHeight="300" MinWidth="340" MaxWidth="340" Width="340" Grid.Column="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding ChageDateString}" MinWidth="100" MaxWidth="100"/>
+                            <DataGridTextColumn Header="Ответственный" Binding="{Binding OldUser.FullName}" MinWidth="120" MaxWidth="120">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" MinWidth="120" MaxWidth="120">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+
+                <Grid Grid.Column="3" Margin="0,5,0,0" HorizontalAlignment="Left" Width="81">
+                    <Button Click="DeleteClick" Background="#9EA1A2" HorizontalAlignment="Right" Margin="0,4,36,0" VerticalAlignment="Top" Height="45" Width="45" Style="{StaticResource RoundedButtonStyle}">
+                        <Image Source="pack://application:,,,/Images/delete_icon.png" Height="42" Width="41" />
+                    </Button>
+                    <Button Click="UpdateClick" Background="#9EA1A2" Height="45" Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" Width="45" Margin="0,49,0,92">
+                        <Image Source="pack://application:,,,/Images/update_icon.png" Height="42" Width="41" />
+                    </Button>
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

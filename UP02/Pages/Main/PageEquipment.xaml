@@ -9,6 +9,43 @@
       Title="PageEquipment">
 
     <Grid>
-        
+        <TextBox x:Name="SearchField" Height="25" Margin="10,10,360,5" VerticalAlignment="Top"/>
+        <Button Content="Поиск" Height="25" Width="100" Margin="0,10,255,5" VerticalAlignment="Top" HorizontalAlignment="Right" Click="Search_Click"/>
+        <Button Content="Добавить запись" Height="25" Width="100" Margin="0,10,15,5"  VerticalAlignment="Top" HorizontalAlignment="Right" Click="AddNewRecord_Click"/>
+        <StackPanel Orientation="Horizontal" Height="50" Margin="5,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <StackPanel Margin="5">
+                <TextBlock Text="Ответственный" Foreground="White"/>
+                <ComboBox x:Name="ResponsibleUserCB" SelectionChanged="SortCB_Changed"/>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Времено ответственный" Foreground="White"/>
+                <ComboBox x:Name="TempResponsibleUserCB" SelectionChanged="SortCB_Changed"/>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Статусы" Foreground="White"/>
+                <ComboBox x:Name="EquipmentStatusesCB" SelectionChanged="SortCB_Changed"/>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Модели" Foreground="White"/>
+                <ComboBox x:Name="EquipmentModelsCB" SelectionChanged="SortCB_Changed"/>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Аудитория" Foreground="White"/>
+                <ComboBox x:Name="EquipmentAudiencesCB" SelectionChanged="SortCB_Changed"/>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Направление" Foreground="White"/>
+                <ComboBox x:Name="EquipmentDirectionsCB" SelectionChanged="SortCB_Changed"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ScrollViewer Margin="0,105,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ContentPanel" Orientation="Vertical"/>
+        </ScrollViewer>
     </Grid>
 </Page>
