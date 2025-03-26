@@ -5,10 +5,72 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:UP02.Pages.Main"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="PageAuthorization">
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800">
+    <Page.Resources>
+        <!-- Стиль для кнопок с закругленными углами -->
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для TextBox -->
+        <Style x:Key="RoundedTextBoxStyle" TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="10" Background="White" BorderBrush="Gray" BorderThickness="1">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для PasswordBox -->
+        <Style x:Key="RoundedPasswordBoxStyle" TargetType="PasswordBox">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border CornerRadius="10" Background="White" BorderBrush="Gray" BorderThickness="1">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Page.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FFC5C5C5" Offset="0.0"/>
+            <GradientStop Color="#0060AC" Offset="0.5"/>
+            <GradientStop Color="#FFC5C5C5" Offset="1.0"/>
+        </LinearGradientBrush>
+    </Page.Background>
 
     <Grid>
-        
+        <Border CornerRadius="20" Background="#FF718A9E" Margin="50,0,50,50"  VerticalAlignment="Center" HorizontalAlignment="Center" Padding="20">
+            <StackPanel>
+                <Label Margin="5" Content="Добро пожаловать!" Foreground="#FFF0F0F0" FontSize="17" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <Label Margin="5" Content="Введите Ваш логин" Foreground="#FFF0F0F0" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <TextBox Margin="5" x:Name="LoginUser" Style="{StaticResource RoundedTextBoxStyle}" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="502" Height="40"/>
+                <Label Margin="5" Content="Введите Ваш пароль" Foreground="#FFF0F0F0" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <PasswordBox Margin="5" x:Name="PasswordUser" Style="{StaticResource RoundedPasswordBoxStyle}" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="502" Height="40"/>
+                <Button Margin="5" Style="{StaticResource RoundedButtonStyle}" Click="Authorization_Click" Content="Вход" FontSize="15" FontWeight="Bold" Foreground="#FFF0F0F0" Background="#0060AC" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="316" Height="39"/>
+                <Button Margin="5, 5, 5, 15" Style="{StaticResource RoundedButtonStyle}" Click="OpenConnectionSettings_Cick" Content="Настройки подключения" FontSize="15" FontWeight="Bold" Foreground="#FFF0F0F0" Background="#0060AC" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="316" Height="39"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>
