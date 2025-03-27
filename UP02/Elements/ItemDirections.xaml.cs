@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UP02.Context;
 using UP02.Helpers;
+using UP02.Interfaces;
 using UP02.Models;
 
 namespace UP02.Elements
@@ -21,7 +22,7 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemDirections.xaml
     /// </summary>
-    public partial class ItemDirections : UserControl
+    public partial class ItemDirections : UserControl, IRecordDeletable, IRecordUpdatable
     {
         public ItemDirections(Directions Direction)
         {

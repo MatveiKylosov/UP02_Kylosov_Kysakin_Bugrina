@@ -131,11 +131,17 @@ namespace UP02.Pages.Main
 
         private void UpdateRecordSuccess(object sender, EventArgs e)
         {
-            var audience = sender as Audiences;
-            if (audience == null)
+            var Audiences = sender as Audiences;
+            if (Audiences == null)
                 return;
 
-            OriginalRecords.Add(audience);
+            var AudiencesToUpdate = OriginalRecords.Find(x => x.AudienceID == Audiences.AudienceID);
+            if (AudiencesToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(AudiencesToUpdate);
+                OriginalRecords[index] = Audiences;
+            }
             SortRecord();
         }
 
