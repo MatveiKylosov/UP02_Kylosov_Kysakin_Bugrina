@@ -99,8 +99,8 @@ namespace UP02.Pages.Elements
                 InventoryCreater = Settings.CurrentUser;
                 CreaterInventories.Text = Settings.CurrentUser.FullName;
 
-                StartDate.Text = DateTime.UtcNow.ToString("HH:mm dd.MM.yyyy");
-                EndDate.Text = DateTime.UtcNow.ToString("HH:mm dd.MM.yyyy");
+                StartDate.Text = DateTime.Now.ToString("HH:mm dd.MM.yyyy");
+                EndDate.Text = DateTime.Now.ToString("HH:mm dd.MM.yyyy");
             }
 
             CreaterInventories.Text = InventoryCreater.FullName;

@@ -248,7 +248,7 @@ namespace UP02.Pages.Elements
                             new EquipmentLocationHistory()
                             {
                                 EquipmentID = equipmentFromdatabaseContext.EquipmentID,
-                                ChangeDate = DateTime.UtcNow,
+                                ChangeDate = DateTime.Now,
                                 Comment = equipmentFromdatabaseContext.Comment,
                                 AudienceID = CurrentAudiences,
                             }
@@ -262,7 +262,7 @@ namespace UP02.Pages.Elements
                             {
                                 EquipmentID = equipmentFromdatabaseContext.EquipmentID,
                                 OldUserID = CurrentResponsibleUser,
-                                ChangeDate = DateTime.UtcNow,
+                                ChangeDate = DateTime.Now,
                                 Comment = equipmentFromdatabaseContext.Comment,
                             }
                         );
