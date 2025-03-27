@@ -38,7 +38,7 @@ namespace UP02.Pages.Main
             }
             catch(Exception ex)
             {
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
             var users = OriginalRecords.Where(u => u != null && u.User != null).Select(e => e.User).Distinct().ToList();

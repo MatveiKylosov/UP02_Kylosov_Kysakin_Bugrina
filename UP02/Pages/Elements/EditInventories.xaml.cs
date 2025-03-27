@@ -48,7 +48,7 @@ namespace UP02.Pages.Elements
             }
             catch(Exception ex)
             {
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
 
@@ -221,7 +221,7 @@ namespace UP02.Pages.Elements
             }
             catch (Exception ex)
             {
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
         }
@@ -324,7 +324,7 @@ namespace UP02.Pages.Elements
                 }
                 catch(Exception ex)
                 {
-                    UIHelper.ErrorConnection(databaseContext, ex.Message);
+                    UIHelper.ErrorConnection(ex.Message);
                     return;
                 }
             }

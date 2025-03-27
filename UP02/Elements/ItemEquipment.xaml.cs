@@ -74,7 +74,7 @@ namespace UP02.Elements
             }
             catch(Exception ex)
             {
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
 
@@ -116,7 +116,7 @@ namespace UP02.Elements
             }
             catch(Exception ex)
             {
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
             if (Equipment.Photo != null)
@@ -152,7 +152,7 @@ namespace UP02.Elements
             }
             catch (Exception ex)
             {
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
 
@@ -205,7 +205,7 @@ namespace UP02.Elements
                 }
                 catch (Exception ex)
                 {
-                    UIHelper.ErrorConnection(databaseContext, ex.Message);
+                    UIHelper.ErrorConnection(ex.Message);
                     MessageBox.Show($"Ошибка при сохранении документа: {ex.Message}");
                     return;
                 }
@@ -229,7 +229,7 @@ namespace UP02.Elements
             }
             catch (Exception ex)
             {
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
 
@@ -287,7 +287,7 @@ namespace UP02.Elements
                 }
                 catch (Exception ex)
                 {
-                    UIHelper.ErrorConnection(databaseContext, ex.Message);
+                    UIHelper.ErrorConnection(ex.Message);
                     MessageBox.Show($"Ошибка при сохранении документа: {ex.Message}");
                     return;
                 }

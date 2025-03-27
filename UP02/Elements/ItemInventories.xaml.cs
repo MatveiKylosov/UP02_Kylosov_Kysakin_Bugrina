@@ -91,7 +91,7 @@ namespace UP02.Elements
             }
             catch(Exception ex)
             {
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
         }

@@ -158,7 +158,7 @@ namespace UP02.Pages.Main
             }
             catch (Exception ex)
             {
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
         }

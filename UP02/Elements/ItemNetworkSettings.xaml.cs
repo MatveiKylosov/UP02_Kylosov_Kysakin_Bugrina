@@ -88,7 +88,7 @@ namespace UP02.Elements
             catch (Exception ex)
             {
                 // Обработка ошибок при подключении
-                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                UIHelper.ErrorConnection(ex.Message);
                 return;
             }
         }
