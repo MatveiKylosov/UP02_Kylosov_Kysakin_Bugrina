@@ -11,7 +11,7 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemEquipmentModels.xaml
     /// </summary>
-    public partial class ItemEquipmentModels : UserControl, IRecordDeletable
+    public partial class ItemEquipmentModels : UserControl, IRecordDeletable, IRecordUpdatable
     {    /// <summary>
          /// Создает новый экземпляр и инициализирует его.
          /// </summary>
@@ -26,7 +26,7 @@ namespace UP02.Elements
         /// <summary>
         /// Событие, возникающее при удалении записи.
         /// </summary>
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         EquipmentModels EquipmentModel;
 
         /// <summary>
@@ -78,6 +78,7 @@ namespace UP02.Elements
         {
             this.EquipmentModel = sender as EquipmentModels;
             this.DataContext = this.EquipmentModel;
+            RecordUpdate?.Invoke(EquipmentModel, EventArgs.Empty);
         }
 
         /// <summary>

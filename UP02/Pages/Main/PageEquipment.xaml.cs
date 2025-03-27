@@ -124,14 +124,13 @@ namespace UP02.Pages.Main
 
             CurrentList = OriginalRecords;
 
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemEquipment(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemEquipment(x), OriginalRecords, UpdateRecordSuccess);
         }
 
 
         /// <summary>
         /// Обработчик клика по кнопке для добавления нового оборудования.
         /// </summary>
-
         private void AddNewRecord_Click(object sender, RoutedEventArgs e)
         {
             var editPage = new EditEquipment();
@@ -149,6 +148,22 @@ namespace UP02.Pages.Main
                 return;
 
             OriginalRecords.Add(equipment);
+            SortRecord();
+        }
+
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var equipment = sender as Equipment;
+            if (equipment == null)
+                return;
+
+            var equipmentToUpdate = OriginalRecords.Find(x => x.EquipmentID == equipment.EquipmentID);
+            if (equipmentToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(equipmentToUpdate);
+                OriginalRecords[index] = equipment;
+            }
             SortRecord();
         }
 
@@ -222,7 +237,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemEquipment(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemEquipment(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

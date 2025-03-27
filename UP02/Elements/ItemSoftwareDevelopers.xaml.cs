@@ -23,9 +23,9 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemSoftwareDevelopers.xaml
     /// </summary>
-    public partial class ItemSoftwareDevelopers : UserControl, IRecordDeletable
+    public partial class ItemSoftwareDevelopers : UserControl, IRecordDeletable, IRecordUpdatable
     {
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         private SoftwareDevelopers SoftwareDeveloper;
 
         /// <summary>
@@ -86,6 +86,7 @@ namespace UP02.Elements
         {
             this.SoftwareDeveloper = sender as SoftwareDevelopers;
             this.DataContext = this.SoftwareDeveloper;
+            RecordUpdate?.Invoke(SoftwareDeveloper, EventArgs.Empty);
         }
 
         /// <summary>

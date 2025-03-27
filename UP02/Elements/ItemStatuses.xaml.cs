@@ -23,9 +23,9 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemStatuses.xaml
     /// </summary>
-    public partial class ItemStatuses : UserControl, IRecordDeletable
+    public partial class ItemStatuses : UserControl, IRecordDeletable, IRecordUpdatable
     {
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         private Statuses Status;
 
         /// <summary>
@@ -87,6 +87,7 @@ namespace UP02.Elements
         {
             this.Status = sender as Statuses;
             this.DataContext = this.Status;
+            RecordUpdate?.Invoke(Status, EventArgs.Empty);
         }
 
         /// <summary>

@@ -15,12 +15,12 @@ namespace UP02.Elements
     /// <summary>
     /// Контрол для отображения и редактирования информации о оборудовании.
     /// </summary>
-    public partial class ItemEquipment : UserControl, IRecordDeletable
+    public partial class ItemEquipment : UserControl, IRecordDeletable, IRecordUpdatable
     {
         /// <summary>
         /// Событие, возникающее при удалении записи.
         /// </summary>
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
 
         Equipment Equipment;
         List<EquipmentLocationHistory> equipmentLocationHistory = new List<EquipmentLocationHistory>();
@@ -100,6 +100,7 @@ namespace UP02.Elements
             this.Equipment = sender as Equipment;
             this.DataContext = this.Equipment;
             UpdateDateGrid();
+            RecordUpdate?.Invoke(Equipment, EventArgs.Empty);
         }
 
         /// <summary>

@@ -11,12 +11,12 @@ namespace UP02.Elements
     /// <summary>
     /// Контрол для отображения и управления инвентаризацией.
     /// </summary>
-    public partial class ItemInventories : UserControl, IRecordDeletable
+    public partial class ItemInventories : UserControl, IRecordDeletable, IRecordUpdatable
     {
         /// <summary>
         /// Событие, возникающее при удалении записи.
         /// </summary>
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         Inventories Inventory;
 
         /// <summary>
@@ -53,6 +53,7 @@ namespace UP02.Elements
         {
             this.Inventory = sender as Inventories;
             this.DataContext = this.Inventory;
+            RecordUpdate?.Invoke(Inventory, EventArgs.Empty);
         }
 
         /// <summary>

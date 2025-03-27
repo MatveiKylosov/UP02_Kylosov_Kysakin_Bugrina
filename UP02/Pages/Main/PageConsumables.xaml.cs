@@ -60,7 +60,7 @@ namespace UP02.Pages.Main
 
             CurrentList = OriginalRecords;
 
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemConsumables(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemConsumables(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>
@@ -84,6 +84,22 @@ namespace UP02.Pages.Main
                 return;
 
             OriginalRecords.Add(consumable);
+            SortRecord();
+        }
+
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var consumable = sender as Consumables;
+            if (consumable == null)
+                return;
+
+            var consumableToUpdate = OriginalRecords.Find(x => x.ConsumableID == consumable.ConsumableID);
+            if (consumableToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(consumableToUpdate);
+                OriginalRecords[index] = consumable;
+            }
             SortRecord();
         }
 
@@ -131,7 +147,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemConsumables(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemConsumables(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

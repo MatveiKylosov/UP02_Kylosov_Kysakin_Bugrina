@@ -48,7 +48,7 @@ namespace UP02.Pages.Main
                 return;
             }
 
-            UIHelper.AddItemsToPanel(ContentPanel, OriginalRecords, x => new ItemDirections(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, OriginalRecords, x => new ItemDirections(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>
@@ -74,6 +74,22 @@ namespace UP02.Pages.Main
             SortRecord();
         }
 
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var directions = sender as Directions;
+            if (directions == null)
+                return;
+
+            var directionsToUpdate = OriginalRecords.Find(x => x.DirectionID == directions.DirectionID);
+            if (directionsToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(directionsToUpdate);
+                OriginalRecords[index] = directions;
+            }
+            SortRecord();
+        }
+
         /// <summary>
         /// Метод для сортировки и фильтрации записей на основе поискового запроса.
         /// </summary>
@@ -91,7 +107,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemDirections(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemDirections(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

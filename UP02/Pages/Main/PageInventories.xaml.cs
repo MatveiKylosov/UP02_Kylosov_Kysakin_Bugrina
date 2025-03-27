@@ -55,7 +55,7 @@ namespace UP02.Pages.Main
 
             CurrentList = OriginalRecords;
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemInventories(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemInventories(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>
@@ -80,6 +80,23 @@ namespace UP02.Pages.Main
             OriginalRecords.Add(inventories);
             SortRecord();
         }
+
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var inventories = sender as Inventories;
+            if (inventories == null)
+                return;
+
+            var inventoriesToUpdate = OriginalRecords.Find(x => x.InventoryID == inventories.InventoryID);
+            if (inventoriesToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(inventoriesToUpdate);
+                OriginalRecords[index] = inventories;
+            }
+            SortRecord();
+        }
+
 
         /// <summary>
         /// Выполняет сортировку и фильтрацию списка инвентаря по выбранному пользователю, дате и поисковому запросу.
@@ -119,7 +136,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemInventories(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemInventories(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

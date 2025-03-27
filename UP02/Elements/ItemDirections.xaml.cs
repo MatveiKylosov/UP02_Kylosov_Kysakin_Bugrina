@@ -31,7 +31,7 @@ namespace UP02.Elements
             this.DataContext = Direction;
         }
 
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         Directions Direction;
 
         private void DeleteClick(object sender, RoutedEventArgs e)
@@ -72,6 +72,7 @@ namespace UP02.Elements
         {
             this.Direction = sender as Directions;
             this.DataContext = this.Direction;
+            RecordUpdate?.Invoke(Direction, EventArgs.Empty);
         }
         private void _RecordDelete(object sender, EventArgs e)
         {

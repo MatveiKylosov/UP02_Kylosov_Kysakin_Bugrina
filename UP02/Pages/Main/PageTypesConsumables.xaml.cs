@@ -48,7 +48,7 @@ namespace UP02.Pages.Main
                 return;
             }
 
-            UIHelper.AddItemsToPanel(ContentPanel, OriginalRecords, x => new ItemTypesConsumables(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, OriginalRecords, x => new ItemTypesConsumables(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>
@@ -74,6 +74,22 @@ namespace UP02.Pages.Main
             SortRecord();
         }
 
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var TypesConsumables = sender as TypesConsumables;
+            if (TypesConsumables == null)
+                return;
+
+            var TypesConsumablesToUpdate = OriginalRecords.Find(x => x.TypeConsumablesID == TypesConsumables.TypeConsumablesID);
+            if (TypesConsumablesToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(TypesConsumablesToUpdate);
+                OriginalRecords[index] = TypesConsumables;
+            }
+            SortRecord();
+        }
+
         /// <summary>
         /// Метод сортировки записей типов расходных материалов. Применяет фильтры по поисковому запросу, обновляя отображаемые записи.
         /// </summary>
@@ -90,7 +106,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemTypesConsumables(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemTypesConsumables(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

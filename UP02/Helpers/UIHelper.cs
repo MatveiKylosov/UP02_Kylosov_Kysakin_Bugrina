@@ -144,12 +144,14 @@ namespace UP02.Helpers
             StackPanel panel,
             IEnumerable<T> items,
             Func<T, UIElement> itemCreator,
-            List<T> OriginalsItems
+            List<T> OriginalsItems,
+            EventHandler RecordUpdate
             )
         {
             foreach (var item in items)
             {
                 var element = itemCreator(item);
+
                 if (element is IRecordDeletable recordDeletable)
                 {
                     recordDeletable.RecordDelete += (sender, e) =>
@@ -160,6 +162,12 @@ namespace UP02.Helpers
                             panel.Children.Remove(element);
                         }
                     };
+
+                    if (element is IRecordUpdatable recordUpdatable)
+                    {
+                        recordUpdatable.RecordUpdate += RecordUpdate;
+                    }
+
                     panel.Children.Add(element);
                 }
             }

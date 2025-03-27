@@ -58,7 +58,7 @@ namespace UP02.Pages.Main
 
             CurrentList = OriginalRecords;
 
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemSoftware(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemSoftware(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>
@@ -81,6 +81,22 @@ namespace UP02.Pages.Main
                 return;
 
             OriginalRecords.Add(software);
+            SortRecord();
+        }
+
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var software = sender as Software;
+            if (software == null)
+                return;
+
+            var softwareToUpdate = OriginalRecords.Find(x => x.SoftwareID == software.SoftwareID);
+            if (softwareToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(softwareToUpdate);
+                OriginalRecords[index] = software;
+            }
             SortRecord();
         }
 
@@ -115,7 +131,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemSoftware(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemSoftware(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

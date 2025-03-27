@@ -99,7 +99,7 @@ namespace UP02.Pages.Main
 
             CurrentList = OriginalRecords;
 
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemAudiences(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemAudiences(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>
@@ -120,6 +120,16 @@ namespace UP02.Pages.Main
         /// <param name="sender">Созданная аудитория</param>
         /// <param name="e">Аргументы события</param>
         private void CreateNewRecordSuccess(object sender, EventArgs e)
+        {
+            var audience = sender as Audiences;
+            if (audience == null)
+                return;
+
+            OriginalRecords.Add(audience);
+            SortRecord();
+        }
+
+        private void UpdateRecordSuccess(object sender, EventArgs e)
         {
             var audience = sender as Audiences;
             if (audience == null)
@@ -160,7 +170,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemAudiences(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemAudiences(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

@@ -22,12 +22,12 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemAudiences.xaml
     /// </summary>
-    public partial class ItemAudiences : UserControl, IRecordDeletable
+    public partial class ItemAudiences : UserControl, IRecordDeletable, IRecordUpdatable
     {
         /// <summary>
         /// Событие, возникающее при удалении записи.
         /// </summary>
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
 
         /// <summary>
         /// Объект аудитории, связанный с данным элементом.
@@ -103,6 +103,7 @@ namespace UP02.Elements
         {
             this.Audience = sender as Audiences;
             this.DataContext = this.Audience;
+            RecordUpdate?.Invoke(Audience, EventArgs.Empty);
         }
 
         /// <summary>

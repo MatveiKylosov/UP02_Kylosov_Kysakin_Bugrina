@@ -62,7 +62,7 @@ namespace UP02.Pages.Main
 
             CurrentList = OriginalRecords;
 
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemNetworkSettings(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemNetworkSettings(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>
@@ -87,6 +87,22 @@ namespace UP02.Pages.Main
                 return;
 
             OriginalRecords.Add(NetworkSettings);
+            SortRecord();
+        }
+
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var NetworkSettings = sender as NetworkSettings;
+            if (NetworkSettings == null)
+                return;
+
+            var NetworkSettingsToUpdate = OriginalRecords.Find(x => x.NetworkID == NetworkSettings.NetworkID);
+            if (NetworkSettingsToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(NetworkSettingsToUpdate);
+                OriginalRecords[index] = NetworkSettings;
+            }
             SortRecord();
         }
 
@@ -116,7 +132,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemNetworkSettings(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemNetworkSettings(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

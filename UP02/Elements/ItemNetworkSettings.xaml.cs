@@ -23,9 +23,9 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemNetworkSettings.xaml
     /// </summary>
-    public partial class ItemNetworkSettings : UserControl, IRecordDeletable
+    public partial class ItemNetworkSettings : UserControl, IRecordDeletable, IRecordUpdatable
     {
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         private NetworkSettings NetworkSettings;
 
         /// <summary>
@@ -61,6 +61,7 @@ namespace UP02.Elements
         {
             this.NetworkSettings = sender as NetworkSettings;
             this.DataContext = this.NetworkSettings;
+            RecordUpdate?.Invoke(NetworkSettings, EventArgs.Empty);
         }
 
         /// <summary>

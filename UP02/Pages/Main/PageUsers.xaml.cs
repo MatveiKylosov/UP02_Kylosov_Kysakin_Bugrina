@@ -49,7 +49,7 @@ namespace UP02.Pages.Main
             }
             CurrentList = OriginalRecords;
 
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemUsers(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemUsers(x), OriginalRecords, UpdateRecordSuccess);
         }
 
 
@@ -68,11 +68,27 @@ namespace UP02.Pages.Main
         /// </summary>
         private void CreateNewRecordSuccess(object sender, EventArgs e)
         {
-            var audience = sender as Users;
-            if (audience == null)
+            var Users = sender as Users;
+            if (Users == null)
                 return;
 
-            OriginalRecords.Add(audience);
+            OriginalRecords.Add(Users);
+            SortRecord();
+        }
+
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var Users = sender as Users;
+            if (Users == null)
+                return;
+
+            var UsersToUpdate = OriginalRecords.Find(x => x.UserID == Users.UserID);
+            if (UsersToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(UsersToUpdate);
+                OriginalRecords[index] = Users;
+            }
             SortRecord();
         }
 
@@ -104,7 +120,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemUsers(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemUsers(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

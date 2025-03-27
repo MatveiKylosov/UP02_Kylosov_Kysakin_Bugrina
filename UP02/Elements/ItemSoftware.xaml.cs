@@ -22,9 +22,9 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemSoftware.xaml
     /// </summary>
-    public partial class ItemSoftware : UserControl, IRecordDeletable
+    public partial class ItemSoftware : UserControl, IRecordDeletable, IRecordUpdatable
     {
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         private Software Software;
 
         /// <summary>
@@ -79,6 +79,7 @@ namespace UP02.Elements
         {
             this.Software = sender as Software;
             this.DataContext = this.Software;
+            RecordUpdate?.Invoke(Software, EventArgs.Empty);
         }
 
         /// <summary>

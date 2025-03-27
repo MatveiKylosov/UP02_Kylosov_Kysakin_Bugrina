@@ -48,7 +48,7 @@ namespace UP02.Pages.Main
                 return;
             }
             CurrentList = OriginalRecords;
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemEquipmentModels(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemEquipmentModels(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>
@@ -74,6 +74,21 @@ namespace UP02.Pages.Main
             SortRecord();
         }
 
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var equipmentModels = sender as EquipmentModels;
+            if (equipmentModels == null)
+                return;
+
+            var equipmentModelsToUpdate = OriginalRecords.Find(x => x.ModelID == equipmentModels.ModelID);
+            if (equipmentModels != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(equipmentModels);
+                OriginalRecords[index] = equipmentModels;
+            }
+            SortRecord();
+        }
         /// <summary>
         /// Выполняет сортировку и фильтрацию списка моделей оборудования по введенному поисковому запросу.
         /// </summary>
@@ -90,7 +105,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemEquipmentModels(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemEquipmentModels(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

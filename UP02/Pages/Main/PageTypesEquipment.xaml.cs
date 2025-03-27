@@ -46,7 +46,7 @@ namespace UP02.Pages.Main
                 return;
             }
 
-            UIHelper.AddItemsToPanel(ContentPanel, OriginalRecords, x => new ItemTypesEquipment(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, OriginalRecords, x => new ItemTypesEquipment(x), OriginalRecords, UpdateRecordSuccess);
         }
         /// <summary>
         /// Обработчик клика по кнопке для добавления нового направления.
@@ -63,11 +63,27 @@ namespace UP02.Pages.Main
         /// </summary>
         private void CreateNewRecordSuccess(object sender, EventArgs e)
         {
-            var direction = sender as TypesEquipment;
-            if (direction == null)
+            var TypesEquipment = sender as TypesEquipment;
+            if (TypesEquipment == null)
                 return;
 
-            OriginalRecords.Add(direction);
+            OriginalRecords.Add(TypesEquipment);
+            SortRecord();
+        }
+
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var TypesEquipment = sender as TypesEquipment;
+            if (TypesEquipment == null)
+                return;
+
+            var TypesEquipmentToUpdate = OriginalRecords.Find(x => x.TypeEquipmentID == TypesEquipment.TypeEquipmentID);
+            if (TypesEquipmentToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(TypesEquipmentToUpdate);
+                OriginalRecords[index] = TypesEquipment;
+            }
             SortRecord();
         }
 
@@ -88,7 +104,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemTypesEquipment(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemTypesEquipment(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace UP02.Pages.Main
                 return;
             }
             CurrentList = OriginalRecords;
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemSoftwareDevelopers(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemSoftwareDevelopers(x), OriginalRecords, UpdateRecordSuccess);
         }
 
 
@@ -64,6 +64,22 @@ namespace UP02.Pages.Main
             SortRecord();
         }
 
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var SoftwareDevelopers = sender as SoftwareDevelopers;
+            if (SoftwareDevelopers == null)
+                return;
+
+            var SoftwareDevelopersToUpdate = OriginalRecords.Find(x => x.DeveloperID == SoftwareDevelopers.DeveloperID);
+            if (SoftwareDevelopersToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(SoftwareDevelopersToUpdate);
+                OriginalRecords[index] = SoftwareDevelopers;
+            }
+            SortRecord();
+        }
+
 
         /// <summary>
         /// Метод сортировки записей. Применяет фильтры по поисковому запросу, обновляя отображаемые записи.
@@ -81,7 +97,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemSoftwareDevelopers(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemSoftwareDevelopers(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

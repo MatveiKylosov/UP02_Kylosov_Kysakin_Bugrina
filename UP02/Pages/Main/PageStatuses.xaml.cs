@@ -36,7 +36,7 @@ namespace UP02.Pages.Main
                 return;
             }
 
-            UIHelper.AddItemsToPanel(ContentPanel, OriginalRecords, x => new ItemStatuses(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, OriginalRecords, x => new ItemStatuses(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>
@@ -55,11 +55,27 @@ namespace UP02.Pages.Main
 
         private void CreateNewRecordSuccess(object sender, EventArgs e)
         {
-            var direction = sender as Statuses;
-            if (direction == null)
+            var statuses = sender as Statuses;
+            if (statuses == null)
                 return;
 
-            OriginalRecords.Add(direction);
+            OriginalRecords.Add(statuses);
+            SortRecord();
+        }
+
+        private void UpdateRecordSuccess(object sender, EventArgs e)
+        {
+            var statuses = sender as Statuses;
+            if (statuses == null)
+                return;
+
+            var statusesToUpdate = OriginalRecords.Find(x => x.StatusID == statuses.StatusID);
+            if (statusesToUpdate != null)
+            {
+                // Заменяем старый объект на новый
+                int index = OriginalRecords.IndexOf(statusesToUpdate);
+                OriginalRecords[index] = statuses;
+            }
             SortRecord();
         }
 
@@ -79,7 +95,7 @@ namespace UP02.Pages.Main
             }
 
             ContentPanel.Children.Clear();
-            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemStatuses(x), OriginalRecords);
+            UIHelper.AddItemsToPanel(ContentPanel, CurrentList, x => new ItemStatuses(x), OriginalRecords, UpdateRecordSuccess);
         }
 
         /// <summary>

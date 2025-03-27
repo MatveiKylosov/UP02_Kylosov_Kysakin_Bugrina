@@ -28,12 +28,12 @@ namespace UP02.Elements
     /// <summary>
     /// Представляет элемент для отображения и редактирования данных о расходных материалах.
     /// </summary>
-    public partial class ItemConsumables : UserControl, IRecordDeletable
+    public partial class ItemConsumables : UserControl, IRecordDeletable, IRecordUpdatable
     {
         /// <summary>
         /// Событие, вызываемое при удалении записи.
         /// </summary>
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         /// <summary>
         /// Объект расходного материала.
         /// </summary>
@@ -150,6 +150,8 @@ namespace UP02.Elements
             {
                 Photo.Source = UIHelper.ByteArrayToImage(Consumable.Photo);
             }
+
+            RecordUpdate?.Invoke(Consumable, EventArgs.Empty);
         }
 
         /// <summary>

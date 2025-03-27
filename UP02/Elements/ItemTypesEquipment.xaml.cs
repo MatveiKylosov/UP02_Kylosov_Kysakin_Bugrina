@@ -22,7 +22,7 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemTypesEquipment.xaml
     /// </summary>
-    public partial class ItemTypesEquipment : UserControl, IRecordDeletable
+    public partial class ItemTypesEquipment : UserControl, IRecordDeletable, IRecordUpdatable
     {
         public ItemTypesEquipment(TypesEquipment TypeEquipment)
         {
@@ -31,7 +31,7 @@ namespace UP02.Elements
             this.DataContext = TypeEquipment;
         }
 
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         TypesEquipment TypeEquipment;
 
         private void DeleteClick(object sender, RoutedEventArgs e)
@@ -72,6 +72,7 @@ namespace UP02.Elements
         {
             this.TypeEquipment = sender as TypesEquipment;
             this.DataContext = this.TypeEquipment;
+            RecordUpdate?.Invoke(TypeEquipment, EventArgs.Empty);
         }
         private void _RecordDelete(object sender, EventArgs e)
         {

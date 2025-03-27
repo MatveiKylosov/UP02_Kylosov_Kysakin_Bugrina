@@ -22,9 +22,9 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemUsers.xaml
     /// </summary>
-    public partial class ItemUsers : UserControl, IRecordDeletable
+    public partial class ItemUsers : UserControl, IRecordDeletable, IRecordUpdatable
     {
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         private Users User;
 
         /// <summary>
@@ -112,6 +112,7 @@ namespace UP02.Elements
         {
             this.User = sender as Users;
             this.DataContext = this.User;
+            RecordUpdate?.Invoke(User, EventArgs.Empty);
         }
 
         /// <summary>

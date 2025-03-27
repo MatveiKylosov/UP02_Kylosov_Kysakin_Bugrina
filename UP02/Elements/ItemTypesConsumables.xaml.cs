@@ -22,9 +22,9 @@ namespace UP02.Elements
     /// <summary>
     /// Логика взаимодействия для ItemTypesConsumables.xaml
     /// </summary>
-    public partial class ItemTypesConsumables : UserControl, IRecordDeletable
+    public partial class ItemTypesConsumables : UserControl, IRecordDeletable, IRecordUpdatable
     {
-        public event EventHandler RecordDelete;
+        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
         private TypesConsumables TypeConsumables;
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace UP02.Elements
         {
             this.TypeConsumables = sender as TypesConsumables;
             this.DataContext = this.TypeConsumables;
-
+            RecordUpdate?.Invoke(TypeConsumables, EventArgs.Empty);
             // Обновляем данные после успешного редактирования
             UpdateData();
         }
