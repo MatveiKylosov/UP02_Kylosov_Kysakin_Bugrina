@@ -18,7 +18,7 @@ namespace UP02.Pages.Elements
         public event EventHandler RecordSuccess;
         int? CurrentAudiences = null;
         int? CurrentResponsibleUser = null;
-        byte[] imageBytes;
+        byte[]? imageBytes;
 
         public EditEquipment(Equipment equipment = null)
         {
@@ -102,7 +102,7 @@ namespace UP02.Pages.Elements
                 AudienceCB.SelectedValue = equipment.AudienceID;
                 TextBoxInventoryNumber.Text = equipment.InventoryNumber;
                 TextBoxCost.Text = equipment.Cost.ToString();
-
+                imageBytes = equipment.Photo;
                 CurrentAudiences = equipment.AudienceID;
                 CurrentResponsibleUser = equipment.ResponsibleUserID;
             }

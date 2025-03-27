@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,8 +36,7 @@ namespace UP02.Pages.Elements
         int? ConsumableID = null;
         int TypeConsumablesID = -1;
         bool TypeConsumableChange = false;
-        bool HaveDataOfCharacteristic = false;
-        byte[] imageBytes;
+        byte[]? imageBytes;
 
         public event EventHandler RecordDelete;
         public event EventHandler RecordSuccess;
@@ -80,19 +80,9 @@ namespace UP02.Pages.Elements
                 DescriptionTB.Text = consumable.Description;
                 ReceiptDateTB.Text = ReceiptDateTB.Text = consumable.ReceiptDate?.ToString("dd.MM.yyyy") ?? "";
                 QuantityTB.Text = consumable.Quantity?.ToString() ?? "";
-
+                imageBytes = consumable.Photo;
                 if (consumable.TypeConsumablesID.HasValue) 
                 {
-                    try
-                    {
-                        HaveDataOfCharacteristic = databaseContext.ConsumableCharacteristicValues.Any(x => x.ConsumablesID == ConsumableID);
-                    }
-                    catch(Exception ex)
-                    {
-                        UIHelper.ErrorConnection(databaseContext, ex.Message);
-                        return;
-                    }
-
                     UpdateDataAndTypesConsumablesCB(consumable.TypeConsumablesID.Value);
                 }
             }
