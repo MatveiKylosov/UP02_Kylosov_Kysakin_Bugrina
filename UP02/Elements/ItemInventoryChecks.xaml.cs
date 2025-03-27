@@ -126,7 +126,6 @@ namespace UP02.Elements
                 CheckDate = InventoryChecks.CheckDate,
                 Comment = InventoryChecks.Comment,
                 UserID = InventoryChecks.UserID,
-                User = InventoryChecks.User
             } : null;
         }
 

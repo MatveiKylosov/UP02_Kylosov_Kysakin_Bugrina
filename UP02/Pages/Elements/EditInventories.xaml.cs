@@ -39,7 +39,7 @@ namespace UP02.Pages.Elements
                 if (inventory != null)
                 {
                     _Equipment = databaseContext.Equipment.Where(x => x.ResponsibleUserID == inventory.UserID || x.TempResponsibleUserID == inventory.UserID).ToList();
-                    _InventoryChecks = databaseContext.InventoryChecks.Include(x => x.User).Where(x => x.InventoryID == inventory.InventoryID).ToList();
+                    _InventoryChecks = databaseContext.InventoryChecks.Where(x => x.InventoryID == inventory.InventoryID).ToList();
                 }
                 else
                 {
@@ -51,8 +51,6 @@ namespace UP02.Pages.Elements
                 UIHelper.ErrorConnection(databaseContext, ex.Message);
                 return;
             }
-
-            _Users.Insert(0, new Users { UserID = -1, LastName = "", FirstName = "Отсутствует", MiddleName = "" });
 
             UsersComboBox.ItemsSource = _Users;
             UsersComboBox.DisplayMemberPath = "FullName";
@@ -76,8 +74,8 @@ namespace UP02.Pages.Elements
                 InventoryCreater = inventory.User;
                 InventoryID = inventory.InventoryID;
                 NameTextBox.Text = inventory.Name;
-                StartDate.Text = inventory.StartDate.ToString("HH:mm dd.MM.yyyy");
-                EndDate.Text = inventory.EndDate.ToString("HH:mm dd.MM.yyyy");
+                StartDate.Text = inventory.StartDate.ToString("dd.MM.yyyy");
+                EndDate.Text = inventory.EndDate.ToString("dd.MM.yyyy");
 
                 InventoryCheckParent.Children.Clear();
                 OriginalInventoryChecks = new List<InventoryChecks>(_InventoryChecks.Where(x => x.UserID == Settings.CurrentUser.UserID));
@@ -99,8 +97,8 @@ namespace UP02.Pages.Elements
                 InventoryCreater = Settings.CurrentUser;
                 CreaterInventories.Text = Settings.CurrentUser.FullName;
 
-                StartDate.Text = DateTime.Now.ToString("HH:mm dd.MM.yyyy");
-                EndDate.Text = DateTime.Now.ToString("HH:mm dd.MM.yyyy");
+                StartDate.Text = DateTime.Now.ToString("dd.MM.yyyy");
+                EndDate.Text = DateTime.Now.ToString("dd.MM.yyyy");
             }
 
             CreaterInventories.Text = InventoryCreater.FullName;
@@ -179,17 +177,8 @@ namespace UP02.Pages.Elements
                 var user = UsersComboBox.SelectedItem as Users;
                 if (user != null)
                 {
-                    // Проверяем, отслеживается ли уже выбранный пользователь
-                    var localUser = databaseContext.Set<Users>().Local
-                                     .FirstOrDefault(u => u.UserID == user.UserID);
-                    if (localUser == null)
-                    {
+                    if (user.UserID != InventoryCreater.UserID)
                         databaseContext.Attach(user);
-                    }
-                    else
-                    {
-                        user = localUser;
-                    }
                 }
 
                 // Если добавляются или редактируются проверки, можно использовать уже прикрепленного пользователя
@@ -200,7 +189,6 @@ namespace UP02.Pages.Elements
                     {
                         newChecks.ForEach(x =>
                         {
-                            x.User = user;
                             x.UserID = user.UserID;
                         });
                     }
@@ -229,14 +217,13 @@ namespace UP02.Pages.Elements
                 databaseContext.SaveChanges();
 
                 RecordSuccess?.Invoke(inventoryFromDb, EventArgs.Empty);
+                MessageBox.Show("Данные успешно сохраненны!", "Успех!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 UIHelper.ErrorConnection(databaseContext, ex.Message);
                 return;
             }
-
-            MainWindow.mainFrame.GoBack();
         }
 
 
@@ -249,7 +236,7 @@ namespace UP02.Pages.Elements
 
             if (!DateTime.TryParseExact(
                 StartDate.Text,
-                "HH:mm dd.MM.yyyy",
+                "dd.MM.yyyy",
                 CultureInfo.GetCultureInfo("ru-RU"),
                 DateTimeStyles.None,
                 out DateTime parsedDate1))
@@ -260,7 +247,7 @@ namespace UP02.Pages.Elements
 
             if (!DateTime.TryParseExact(
                 EndDate.Text,
-                "HH:mm dd.MM.yyyy",
+                "dd.MM.yyyy",
                 CultureInfo.GetCultureInfo("ru-RU"),
                 DateTimeStyles.None,
                 out DateTime parsedDate2))
@@ -318,7 +305,7 @@ namespace UP02.Pages.Elements
 
                     if (InventoryID.HasValue)
                     {
-                        var _InventoryChecks = databaseContext.InventoryChecks.Include(x => x.User).Where(x => x.InventoryID == InventoryID.Value && x.UserID == user.UserID);
+                        var _InventoryChecks = databaseContext.InventoryChecks.Where(x => x.InventoryID == InventoryID.Value && x.UserID == user.UserID);
 
                         OriginalInventoryChecks = new List<InventoryChecks>(_InventoryChecks);
 

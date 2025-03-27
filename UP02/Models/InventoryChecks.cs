@@ -17,7 +17,7 @@ namespace UP02.Models
         public string Comment { get; set; }
 
         public int? UserID { get; set; }
-        public virtual Users? User { get; set; }
+        /*public virtual Users? User { get; set; }*/
 
     }
 }
