@@ -79,13 +79,14 @@ namespace UP02.Pages.Main
             var equipmentModels = sender as EquipmentModels;
             if (equipmentModels == null)
                 return;
-
+            
             var equipmentModelsToUpdate = OriginalRecords.Find(x => x.ModelID == equipmentModels.ModelID);
-            if (equipmentModels != null)
+            if (equipmentModelsToUpdate != null)
             {
                 // Заменяем старый объект на новый
-                int index = OriginalRecords.IndexOf(equipmentModels);
-                OriginalRecords[index] = equipmentModels;
+                int index = OriginalRecords.IndexOf(equipmentModelsToUpdate);
+                if(index != -1)
+                    OriginalRecords[index] = equipmentModels;
             }
             SortRecord();
         }
