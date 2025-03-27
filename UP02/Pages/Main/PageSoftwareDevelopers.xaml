@@ -9,6 +9,12 @@
       Title="PageSoftwareDevelopers">
 
     <Grid>
-        
+        <TextBox x:Name="SearchField" Height="25" Margin="10,10,360,5" VerticalAlignment="Top"/>
+        <Button Content="Поиск" Height="25" Width="100" Margin="0,10,255,5" VerticalAlignment="Top" HorizontalAlignment="Right" Click="Search_Click"/>
+        <Button Content="Добавить запись" Height="25" Width="100" Margin="0,10,15,5"  VerticalAlignment="Top" HorizontalAlignment="Right" Click="AddNewRecord_Click"/>
+
+        <ScrollViewer Margin="0,55,0,0" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ContentPanel" Orientation="Vertical"/>
+        </ScrollViewer>
     </Grid>
 </Page>
