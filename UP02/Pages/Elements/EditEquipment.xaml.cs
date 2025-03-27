@@ -119,13 +119,10 @@ namespace UP02.Pages.Elements
             incorrect |= UIHelper.ValidateField(TextBoxInventoryNumber.Text, 50, "Инвентарный номер", regexPattern: "^[0-9]+$", isRequired: true);
 
             // Если поле "Стоимость" заполнено, проверяем, что оно является числом не меньше 0.
-            if (!string.IsNullOrWhiteSpace(TextBoxCost.Text))
+            if (!decimal.TryParse(TextBoxCost.Text, out decimal cost))
             {
-                if (!decimal.TryParse(TextBoxCost.Text, out decimal cost) || cost < 0)
-                {
-                    MessageBox.Show("Поле \"Стоимость\" должно быть числом не меньше 0.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    incorrect = true;
-                }
+                MessageBox.Show("Поле \"Стоимость\" должно быть числом.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                incorrect = true;
             }
 
             if (ResponsibleUserCB.SelectedIndex == -1 && TempResponsibleUserCB.SelectedIndex == -1)
@@ -215,6 +212,7 @@ namespace UP02.Pages.Elements
         {
             if (ValidateAllFields())
                 return;
+
             using var databaseContext = new DatabaseContext();
             try
             {

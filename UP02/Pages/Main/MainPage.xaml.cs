@@ -325,5 +325,11 @@ namespace UP02.Pages.Main
                 }
             }
         }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.ClearFrame();
+            MainWindow.OpenPage(new PageAuthorization());
+        }
     }
 }
