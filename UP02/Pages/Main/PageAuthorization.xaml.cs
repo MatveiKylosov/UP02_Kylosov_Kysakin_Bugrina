@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UP02.Context;
 using UP02.Database;
+using UP02.Helpers;
 
 namespace UP02.Pages.Main
 {
@@ -128,41 +129,39 @@ namespace UP02.Pages.Main
                 return;
             }
 
+            using var databaseContext = new DatabaseContext();
             try
             {
-                using (var context = new DatabaseContext())
-                {
-                    var user = context.Users.FirstOrDefault(
-                        x => x.Login == LoginUser.Text && x.Password == PasswordUser.Password);
 
-                    if (user != null)
-                    {
-                        Settings.CurrentUser = user;
-                        SaveCredentialsToFile();
-                        MessageBox.Show(
-                            "Авторизация прошла успешно!",
-                            "Успех",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                        MainWindow.OpenPage(new MainPage());
-                    }
-                    else
-                    {
-                        MessageBox.Show(
-                            "Неверный логин или пароль.",
-                            "Ошибка авторизации",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error);
-                    }
+
+                var user = databaseContext.Users.FirstOrDefault(
+                    x => x.Login == LoginUser.Text && x.Password == PasswordUser.Password);
+
+                if (user != null)
+                {
+                    Settings.CurrentUser = user;
+                    SaveCredentialsToFile();
+                    MessageBox.Show(
+                        "Авторизация прошла успешно!",
+                        "Успех",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    MainWindow.OpenPage(new MainPage());
                 }
+                else
+                {
+                    MessageBox.Show(
+                        "Неверный логин или пароль.",
+                        "Ошибка авторизации",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Ошибка при авторизации:\n{ex.Message}",
-                    "Ошибка",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                return;
             }
         }
     }

@@ -31,17 +31,14 @@ namespace UP02.Pages.Main
                 AddNewRecordButton.Visibility= Visibility.Hidden;
             }
 
+                using var databaseContext = new DatabaseContext();
             try
             {
-                using var databaseContext = new DatabaseContext();
                 OriginalRecords = databaseContext.Inventories.Include(a => a.User).ToList();
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Не удалось подключиться к базе данных. Проверьте соединение и повторите попытку.",
-                                "Ошибка подключения", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                MainWindow.OpenPage(new PageAuthorization());
+                UIHelper.ErrorConnection(databaseContext, ex.Message);
                 return;
             }
             var users = OriginalRecords.Where(u => u != null && u.User != null).Select(e => e.User).Distinct().ToList();

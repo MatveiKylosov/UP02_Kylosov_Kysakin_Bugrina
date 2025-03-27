@@ -130,6 +130,9 @@ namespace UP02.Pages.Elements
                 networkSettingToUpdate.EquipmentID = null;
                 networkSettingToUpdate.Equipment = null;
             }
+
+            networkSettingToUpdate.Gateway = Gateway.Text;
+            networkSettingToUpdate.DNSServers = DNSServers.Text;
         }
 
         /// <summary>
@@ -145,12 +148,6 @@ namespace UP02.Pages.Elements
             using var databaseContext = new DatabaseContext();
             try
             {
-                if (databaseContext.NetworkSettings.Any(x => x.IPAddress == IPAddress.Text))
-                {
-                    MessageBox.Show("IP адресы не могут совпадать");
-                    return;
-                }
-
                 var networkSettingFromDb = NetworkID.HasValue
                     ? databaseContext.NetworkSettings.FirstOrDefault(a => a.NetworkID == NetworkID.Value)
                     : null;
@@ -168,7 +165,11 @@ namespace UP02.Pages.Elements
                 }
 
                 networkSettingFromDb ??= new NetworkSettings();
-
+                if (databaseContext.NetworkSettings.Any(x => x.IPAddress == IPAddress.Text && x.NetworkID!= networkSettingFromDb.NetworkID))
+                {
+                    MessageBox.Show("IP адресы не могут совпадать");
+                    return;
+                }
                 UpdatesFromControls(networkSettingFromDb, databaseContext);
 
                 if (!NetworkID.HasValue)

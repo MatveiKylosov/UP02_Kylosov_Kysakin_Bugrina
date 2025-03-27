@@ -56,27 +56,7 @@ namespace UP02.Pages.Main
             }
             catch (Exception ex)
             {
-                bool WrongConnections = false;
-                try
-                {
-                    var errorEntry = new Errors
-                    {
-                        ErrorTime = DateTime.Now,
-                        ErrorMessage = ex.Message,
-                    };
-                    databaseContext.Errors.Add(errorEntry);
-                    databaseContext.SaveChanges();
-                }
-                catch
-                {
-                    WrongConnections = true;
-                }
-
-                MessageBox.Show(WrongConnections ? "Не удалось подключиться к базе данных. Проверьте соединение и повторите попытку." : "произошла непредвиденная ошибка.", "Ошибка подключения", MessageBoxButton.OK, MessageBoxImage.Error);
-                if (WrongConnections)
-                {
-                    MainWindow.OpenPage(new PageAuthorization());
-                }
+                UIHelper.ErrorConnection(databaseContext, ex.Message);
                 return;
             }
 

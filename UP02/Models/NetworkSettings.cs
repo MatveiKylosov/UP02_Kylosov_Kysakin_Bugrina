@@ -13,9 +13,9 @@ namespace UP02.Models
         public int NetworkID { get; set; }
         public int? EquipmentID { get; set; }
         public string IPAddress { get; set; }
-        public string SubnetMask { get; set; }
-        public string Gateway { get; set; }
-        public string DNSServers { get; set; }
+        public string? SubnetMask { get; set; }
+        public string? Gateway { get; set; }
+        public string? DNSServers { get; set; }
 
         public virtual Equipment? Equipment { get; set; }
     }
