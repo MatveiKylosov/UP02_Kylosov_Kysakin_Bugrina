@@ -116,12 +116,16 @@ namespace UP02.Pages.Elements
                 MessageBox.Show("Количество должно быть неотрицательным числом.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            incorrect |= DateTime.TryParseExact(
+            if(!DateTime.TryParseExact(
                 this.ReceiptDateTB.Text,
-                "dd.MM.yyyy HH:mm",
+                "dd.MM.yyyy",
                 CultureInfo.GetCultureInfo("ru-RU"),
                 DateTimeStyles.None,
-                out DateTime parsedDate);
+                out DateTime parsedDate))
+            {
+                incorrect = true;
+                MessageBox.Show("Укажите корректную дату.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             return incorrect;
         }
@@ -174,7 +178,12 @@ namespace UP02.Pages.Elements
                 consumableToUpdate.TypeConsumables = null;
             }
 
-            consumableToUpdate.ReceiptDate = DateTime.Parse(ReceiptDateTB.Text, CultureInfo.GetCultureInfo("ru-RU"));
+            consumableToUpdate.ReceiptDate = consumableToUpdate.ReceiptDate = DateTime.ParseExact(
+    ReceiptDateTB.Text,
+    "dd.MM.yyyy",
+    CultureInfo.GetCultureInfo("ru-RU")
+);
+
             if (!string.IsNullOrEmpty(QuantityTB.Text))
             {
                 consumableToUpdate.Quantity = int.Parse(QuantityTB.Text);

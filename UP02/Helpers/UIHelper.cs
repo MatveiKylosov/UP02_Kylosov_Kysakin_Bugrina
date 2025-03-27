@@ -178,11 +178,12 @@ namespace UP02.Helpers
         /// </summary>
         /// <param name="databaseContext">Контекст базы данных.</param>
         /// <param name="exMessage">Сообщение об ошибке.</param>
-        public static void ErrorConnection(DatabaseContext databaseContext, string exMessage)
+        public static void ErrorConnection(string exMessage)
         {
             bool WrongConnections = false;
             try
             {
+                using var databaseContext = new DatabaseContext();
                 var errorEntry = new Errors
                 {
                     ErrorTime = DateTime.Now,
@@ -192,13 +193,13 @@ namespace UP02.Helpers
                 databaseContext.SaveChanges();
                 WrongConnections = false;
             }
-            catch
+            catch (Exception exs)
             {
                 WrongConnections = true;
-            }
+                string logEntry = $"{DateTime.Now}: {exMessage}{Environment.NewLine}\tОшибка при обращении к бд: {exs}";
+                File.AppendAllText("ef_errors.log", logEntry);
 
-            string logEntry = $"{DateTime.Now}: {exMessage}{Environment.NewLine}";
-            File.AppendAllText("ef_errors.log", logEntry);
+            }
 
             if (WrongConnections) {
                 MainWindow.ClearFrame();
