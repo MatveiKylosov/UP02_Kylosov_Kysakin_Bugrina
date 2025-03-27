@@ -20,8 +20,8 @@ namespace UP02.Models
 
         public virtual Users? User { get; set; }
         [NotMapped]
-        public string StartDateString => StartDate.ToString("HH:mm dd.MM.yyyy", CultureInfo.InvariantCulture);
+        public string StartDateString => StartDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
         [NotMapped]
-        public string EndDateString => EndDate.ToString("HH:mm dd.MM.yyyy", CultureInfo.InvariantCulture);
+        public string EndDateString => EndDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
     }
 }

@@ -125,14 +125,14 @@ namespace UP02.Pages.Main
 
             if (StartDate.SelectedDate.HasValue)
             {
-                DateTime startDate = StartDate.SelectedDate.Value;
-                CurrentList = CurrentList.Where(x => x.StartDate == startDate).ToList();
+                DateTime startDate = StartDate.SelectedDate.Value.Date; // Берем только дату без времени
+                CurrentList = CurrentList.Where(x => x.StartDate.Date == startDate).ToList(); // Сравниваем только дату
             }
 
             if (EndDate.SelectedDate.HasValue)
             {
-                DateTime endDate = EndDate.SelectedDate.Value;
-                CurrentList = CurrentList.Where(x => x.EndDate == endDate).ToList();
+                DateTime endDate = EndDate.SelectedDate.Value.Date; // Берем только дату без времени
+                CurrentList = CurrentList.Where(x => x.EndDate.Date == endDate).ToList(); // Сравниваем только дату
             }
 
             ContentPanel.Children.Clear();

@@ -42,12 +42,12 @@
         <Button x:Name="AddNewRecordButton" Content="Добавить запись" Height="25" Width="114" Margin="0,10,15,0" Background="White" Foreground="#0060AC" FontWeight="Bold" FontSize="12" Style="{StaticResource RoundedButtonStyle}"  VerticalAlignment="Top" HorizontalAlignment="Right" Click="AddNewRecord_Click"/>
         <StackPanel Orientation="Horizontal" Height="50" Margin="5,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <StackPanel Margin="5">
-                <TextBlock Text="Ответственный" Foreground="White"/>
+                <TextBlock Text="Кем создана" Foreground="White"/>
                 <ComboBox x:Name="UsersCB" SelectionChanged="SortCB_Changed"/>
             </StackPanel>
 
             <StackPanel Margin="5">
-                <TextBlock Text="Началась с" Foreground="White"/>
+                <TextBlock Text="Началась" Foreground="White"/>
                 <DatePicker x:Name="StartDate" Width="100"
                     SelectedDateChanged="Date_SelectedDateChanged"
                     TextInput="Date_TextInput"

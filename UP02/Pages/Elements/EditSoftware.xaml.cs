@@ -80,9 +80,9 @@ namespace UP02.Pages.Elements
                 this.SoftwareID = software.SoftwareID;
                 Name.Text = software.Name;
                 this.Version.Text = software.Version;
-                SoftwareDeveloperCB.SelectedValue = software.DeveloperID ?? -1;
-                EquipmentCB.SelectedValue = software.EquipmentID ?? -1;
             }
+            SoftwareDeveloperCB.SelectedValue = software?.DeveloperID ?? -1;
+            EquipmentCB.SelectedValue = software?.EquipmentID ?? -1;
         }
 
         /// <summary>
