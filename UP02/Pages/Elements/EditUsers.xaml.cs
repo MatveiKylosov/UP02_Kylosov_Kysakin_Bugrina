@@ -16,9 +16,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UP02.Context;
+using UP02.Database;
 using UP02.Helpers;
 using UP02.Interfaces;
 using UP02.Models;
+using UP02.Pages.Main;
 
 namespace UP02.Pages.Elements
 {
@@ -27,6 +29,7 @@ namespace UP02.Pages.Elements
     /// </summary>
     public partial class EditUsers : Page, IRecordSuccess
     {
+        bool ChangeLoginOrPasswordOrRole = false;
         /// <summary>
         /// Идентификатор пользователя (null для нового пользователя)
         /// </summary>
@@ -62,6 +65,9 @@ namespace UP02.Pages.Elements
                 Address.Text = user.Address;
                 UserID = user.UserID;
             }
+            else
+
+                Role.SelectedIndex = 1;
         }
 
         /// <summary>
@@ -96,6 +102,7 @@ namespace UP02.Pages.Elements
         /// <param name="userToUpdate">Объект пользователя для обновления</param>
         private void UpdatesFromControls(Users userToUpdate)
         {
+            ChangeLoginOrPasswordOrRole = Login.Text != userToUpdate.Login || Password.Password != userToUpdate.Password || (Role.SelectedItem as ComboBoxItem)?.Content.ToString() != userToUpdate.Role;
             userToUpdate.LastName = LastName.Text;
             userToUpdate.FirstName = FirstName.Text;
             userToUpdate.MiddleName = MiddleName.Text;
@@ -139,6 +146,12 @@ namespace UP02.Pages.Elements
 
                 UpdatesFromControls(userFromDb);
 
+                if(databaseContext.Users.Any(x => x.Login == userFromDb.Login && x.UserID != userFromDb.UserID))
+                {
+                    MessageBox.Show("У пользователя должен быть уникальный логин.", "Ошибка.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 if (!UserID.HasValue)
                 {
                     databaseContext.Users.Add(userFromDb);
@@ -148,7 +161,15 @@ namespace UP02.Pages.Elements
 
                 RecordSuccess?.Invoke(userFromDb, EventArgs.Empty);
 
-                MainWindow.mainFrame.GoBack();
+                if (userFromDb.UserID == Settings.CurrentUser.UserID && ChangeLoginOrPasswordOrRole) 
+                {
+                    MainWindow.ClearFrame();
+                    MainWindow.OpenPage(new PageAuthorization());
+                    MessageBox.Show("Необходимо авторизоваться.", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                MainWindow.GoBack();
             }
             catch (Exception ex)
             {
