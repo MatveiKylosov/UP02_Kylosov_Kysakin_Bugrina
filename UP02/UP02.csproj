@@ -9,9 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\add_icon.png" />
+    <None Remove="Images\back_icon.png" />
+    <None Remove="Images\delete_icon.png" />
+    <None Remove="Images\document_icon.png" />
+    <None Remove="Images\update_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DocX" Version="4.0.25105.5786" />
     <PackageReference Include="EPPlus" Version="7.7.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\back_icon.png" />
+    <Resource Include="Images\delete_icon.png" />
+    <Resource Include="Images\document_icon.png" />
+    <Resource Include="Images\update_icon.png" />
   </ItemGroup>
 
 </Project>
