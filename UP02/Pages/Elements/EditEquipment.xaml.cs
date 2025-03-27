@@ -92,17 +92,19 @@ namespace UP02.Pages.Elements
                 EquipmentID = equipment?.EquipmentID;
 
                 TextBoxName.Text = equipment.Name;
-                ResponsibleUserCB.SelectedValue = equipment.ResponsibleUserID;
-                TempResponsibleUserCB.SelectedValue = equipment.TempResponsibleUserID;
-                DirectionCB.SelectedValue = equipment.DirectionID;
-                StatusCB.SelectedValue = equipment.StatusID;
-                ModelCB.SelectedValue = equipment.ModelID;
-                TypesEquipmentCB.SelectedValue = equipment.TypeEquipmentID;
                 TextBoxComment.Text = equipment.Comment;
-                AudienceCB.SelectedValue = equipment.AudienceID;
                 TextBoxInventoryNumber.Text = equipment.InventoryNumber;
                 TextBoxCost.Text = equipment.Cost.ToString();
                 imageBytes = equipment.Photo;
+
+                ResponsibleUserCB.SelectedValue = equipment.ResponsibleUserID ?? -1;
+                TempResponsibleUserCB.SelectedValue = equipment.TempResponsibleUserID ?? -1;
+                DirectionCB.SelectedValue = equipment.DirectionID ?? -1;
+                StatusCB.SelectedValue = equipment.StatusID ?? -1;
+                ModelCB.SelectedValue = equipment.ModelID ?? -1;
+                TypesEquipmentCB.SelectedValue = equipment.TypeEquipmentID ?? -1;
+                AudienceCB.SelectedValue = equipment.AudienceID ?? -1;
+
                 CurrentAudiences = equipment.AudienceID;
                 CurrentResponsibleUser = equipment.ResponsibleUserID;
             }
