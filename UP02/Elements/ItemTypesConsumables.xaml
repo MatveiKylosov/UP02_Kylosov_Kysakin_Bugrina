@@ -26,7 +26,7 @@
         <StackPanel>
             <Label x:Name="TypeLb" Content="{Binding Type}" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" Margin="25,44,0,0" VerticalAlignment="Top"/>
 
-            <DataGrid x:Name="CharacteristisDG" AutoGenerateColumns="False" CanUserAddRows="False" Margin="15,15,130,15" Height="150">
+            <DataGrid x:Name="CharacteristisDG" AutoGenerateColumns="False" CanUserAddRows="False" Margin="15,15,130,15" Height="150" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название характеристики" Binding="{Binding CharacteristicName}" Width="auto">
                         <DataGridTextColumn.ElementStyle>

@@ -78,7 +78,7 @@
                 </Grid>
 
                 <Grid Grid.Row="6">
-                    <DataGrid x:Name="CharacteristisDG" AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid x:Name="CharacteristisDG" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Название характеристики" Binding="{Binding CharacteristicName}" Width="auto">
                                 <DataGridTextColumn.ElementStyle>

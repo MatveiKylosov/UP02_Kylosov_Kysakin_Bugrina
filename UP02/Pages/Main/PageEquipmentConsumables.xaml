@@ -7,8 +7,52 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PageEquipmentConsumables">
-
+    <Page.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <Label Content="Оборудование" Foreground="White" FontWeight="Bold"/>
+            <ComboBox x:Name="EquipmentsComboBox" SelectionChanged="EquipmentsComboBox_SelectionChanged"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <Label Content="Добавить расходник" Foreground="White" FontWeight="Bold"/>
+            <ComboBox x:Name="ConsumablesComboBox" SelectionChanged="ConsumablesComboBox_SelectionChanged"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2">
+            <StackPanel x:Name="ConsumablesParent">
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center">
+            <Button Click="SaveChangesClick" Background="#9EA1A2" Style="{StaticResource RoundedButtonStyle}" Margin="5" Width="60" Height="60">
+                <Image Source="pack://application:,,,/Images/update_icon.png" Height="42" Width="41"  Margin="5"/>
+            </Button>
+
+            <!-- Undo Button -->
+            <Button Click="UndoСhangesClick" Background="#9EA1A2" Style="{StaticResource RoundedButtonStyle}" Margin="5" Width="60" Height="60">
+                <Image Source="pack://application:,,,/Images/delete_icon.png" Height="42" Width="41" Margin="5"/>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>
