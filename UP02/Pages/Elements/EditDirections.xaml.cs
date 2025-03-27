@@ -19,7 +19,7 @@ using UP02.Models;
 
 namespace UP02.Pages.Elements
 {
-    /    /    /    public partial class EditDirections : Page, IRecordSuccess
+    public partial class EditDirections : Page, IRecordSuccess
     {
         int? DirectionID = null;
         public event EventHandler RecordDelete;

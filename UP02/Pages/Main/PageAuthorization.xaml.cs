@@ -24,5 +24,15 @@ namespace UP02.Pages.Main
         {
             InitializeComponent();
         }
+
+        private void OpenConnectionSettings_Cick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Authorization_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
