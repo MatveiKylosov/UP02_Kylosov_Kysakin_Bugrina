@@ -125,7 +125,9 @@ namespace UP02.Pages.Elements
                 incorrect = true;
             }
 
-            if (ResponsibleUserCB.SelectedIndex == -1 && TempResponsibleUserCB.SelectedIndex == -1)
+            var responsibleUserCBSelectedValue = ResponsibleUserCB.SelectedValue as int?;
+            var tempResponsibleUserCBSelectedValue = TempResponsibleUserCB.SelectedValue as int?;
+            if ((!responsibleUserCBSelectedValue.HasValue || responsibleUserCBSelectedValue == -1) && (!tempResponsibleUserCBSelectedValue.HasValue || tempResponsibleUserCBSelectedValue.Value == -1))
             {
                 MessageBox.Show("Не выбран ни один ответственный пользователь. Выберите либо ответственного пользователя, либо временно ответственного.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 incorrect = true;
