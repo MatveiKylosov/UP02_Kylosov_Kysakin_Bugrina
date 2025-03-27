@@ -33,7 +33,7 @@ CREATE TABLE `Audiences` (
   KEY `TempResponsibleUserID` (`TempResponsibleUserID`),
   CONSTRAINT `audiences_ibfk_1` FOREIGN KEY (`ResponsibleUserID`) REFERENCES `Users` (`UserID`),
   CONSTRAINT `audiences_ibfk_2` FOREIGN KEY (`TempResponsibleUserID`) REFERENCES `Users` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `ConsumableCharacteristicValues` (
   KEY `consumablecharacteristicvalues_ibfk_3_idx` (`CharacteristicID`),
   CONSTRAINT `consumablecharacteristicvalues_ibfk_1` FOREIGN KEY (`CharacteristicID`) REFERENCES `ConsumableCharacteristics` (`CharacteristicID`),
   CONSTRAINT `consumablecharacteristicvalues_ibfk_2` FOREIGN KEY (`ConsumablesID`) REFERENCES `Consumables` (`ConsumableID`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,27 @@ CREATE TABLE `ConsumableCharacteristics` (
   PRIMARY KEY (`CharacteristicID`),
   KEY `TypeConsumablesID` (`TypeConsumablesID`),
   CONSTRAINT `consumablecharacteristics_ibfk_1` FOREIGN KEY (`TypeConsumablesID`) REFERENCES `TypesConsumables` (`TypeConsumablesID`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ConsumableResponsibleHistory`
+--
+
+DROP TABLE IF EXISTS `ConsumableResponsibleHistory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ConsumableResponsibleHistory` (
+  `HistoryID` int NOT NULL AUTO_INCREMENT,
+  `ConsumableID` int DEFAULT NULL,
+  `OldUserID` int DEFAULT NULL,
+  `ChangeDate` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`HistoryID`),
+  KEY `ConsumableID` (`ConsumableID`),
+  KEY `OldUserID` (`OldUserID`),
+  CONSTRAINT `consumableresponsiblehistory_ibfk_1` FOREIGN KEY (`ConsumableID`) REFERENCES `Consumables` (`ConsumableID`),
+  CONSTRAINT `consumableresponsiblehistory_ibfk_2` FOREIGN KEY (`OldUserID`) REFERENCES `Users` (`UserID`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,14 +107,17 @@ CREATE TABLE `Consumables` (
   `ReceiptDate` date DEFAULT NULL,
   `Photo` longblob,
   `Quantity` int DEFAULT NULL,
+  `ResponsibleUserID` int DEFAULT NULL,
   `TempResponsibleUserID` int DEFAULT NULL,
   `TypeConsumablesID` int DEFAULT NULL,
   PRIMARY KEY (`ConsumableID`),
   KEY `TypeConsumablesID` (`TypeConsumablesID`),
   KEY `TempResponsibleUserID` (`TempResponsibleUserID`),
+  KEY `consumables_ibfk_3_idx` (`ResponsibleUserID`),
   CONSTRAINT `consumables_ibfk_1` FOREIGN KEY (`TypeConsumablesID`) REFERENCES `TypesConsumables` (`TypeConsumablesID`),
-  CONSTRAINT `consumables_ibfk_2` FOREIGN KEY (`TempResponsibleUserID`) REFERENCES `Users` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `consumables_ibfk_2` FOREIGN KEY (`TempResponsibleUserID`) REFERENCES `Users` (`UserID`),
+  CONSTRAINT `consumables_ibfk_3` FOREIGN KEY (`ResponsibleUserID`) REFERENCES `Users` (`UserID`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +131,7 @@ CREATE TABLE `Directions` (
   `DirectionID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
   PRIMARY KEY (`DirectionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,6 +153,7 @@ CREATE TABLE `Equipment` (
   `DirectionID` int DEFAULT NULL,
   `StatusID` int DEFAULT NULL,
   `ModelID` int DEFAULT NULL,
+  `TypeEquipmentID` int DEFAULT NULL,
   `Comment` text,
   PRIMARY KEY (`EquipmentID`),
   KEY `AudienceID` (`AudienceID`),
@@ -138,13 +162,15 @@ CREATE TABLE `Equipment` (
   KEY `DirectionID` (`DirectionID`),
   KEY `StatusID` (`StatusID`),
   KEY `ModelID` (`ModelID`),
+  KEY `equipment_ibfk_7_idx` (`TypeEquipmentID`),
   CONSTRAINT `equipment_ibfk_1` FOREIGN KEY (`AudienceID`) REFERENCES `Audiences` (`AudienceID`),
   CONSTRAINT `equipment_ibfk_2` FOREIGN KEY (`ResponsibleUserID`) REFERENCES `Users` (`UserID`),
   CONSTRAINT `equipment_ibfk_3` FOREIGN KEY (`TempResponsibleUserID`) REFERENCES `Users` (`UserID`),
   CONSTRAINT `equipment_ibfk_4` FOREIGN KEY (`DirectionID`) REFERENCES `Directions` (`DirectionID`),
   CONSTRAINT `equipment_ibfk_5` FOREIGN KEY (`StatusID`) REFERENCES `Statuses` (`StatusID`),
-  CONSTRAINT `equipment_ibfk_6` FOREIGN KEY (`ModelID`) REFERENCES `EquipmentModels` (`ModelID`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `equipment_ibfk_6` FOREIGN KEY (`ModelID`) REFERENCES `EquipmentModels` (`ModelID`),
+  CONSTRAINT `equipment_ibfk_7` FOREIGN KEY (`TypeEquipmentID`) REFERENCES `TypesEquipment` (`TypeEquipmentID`)
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +189,7 @@ CREATE TABLE `EquipmentConsumables` (
   KEY `ConsumableID` (`ConsumableID`),
   CONSTRAINT `equipmentconsumables_ibfk_1` FOREIGN KEY (`EquipmentID`) REFERENCES `Equipment` (`EquipmentID`),
   CONSTRAINT `equipmentconsumables_ibfk_2` FOREIGN KEY (`ConsumableID`) REFERENCES `Consumables` (`ConsumableID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +210,7 @@ CREATE TABLE `EquipmentLocationHistory` (
   KEY `AudienceID` (`AudienceID`),
   CONSTRAINT `equipmentlocationhistory_ibfk_1` FOREIGN KEY (`EquipmentID`) REFERENCES `Equipment` (`EquipmentID`),
   CONSTRAINT `equipmentlocationhistory_ibfk_2` FOREIGN KEY (`AudienceID`) REFERENCES `Audiences` (`AudienceID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +224,7 @@ CREATE TABLE `EquipmentModels` (
   `ModelID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
   PRIMARY KEY (`ModelID`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,7 +245,7 @@ CREATE TABLE `EquipmentResponsibleHistory` (
   KEY `OldUserID` (`OldUserID`),
   CONSTRAINT `equipmentresponsiblehistory_ibfk_1` FOREIGN KEY (`EquipmentID`) REFERENCES `Equipment` (`EquipmentID`),
   CONSTRAINT `equipmentresponsiblehistory_ibfk_2` FOREIGN KEY (`OldUserID`) REFERENCES `Users` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,7 +260,7 @@ CREATE TABLE `Errors` (
   `ErrorTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ErrorMessage` text NOT NULL,
   PRIMARY KEY (`ErrorID`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +279,7 @@ CREATE TABLE `Inventories` (
   PRIMARY KEY (`InventoryID`),
   KEY `UserID` (`UserID`),
   CONSTRAINT `inventories_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,7 +303,7 @@ CREATE TABLE `InventoryChecks` (
   CONSTRAINT `inventorychecks_ibfk_1` FOREIGN KEY (`InventoryID`) REFERENCES `Inventories` (`InventoryID`),
   CONSTRAINT `inventorychecks_ibfk_2` FOREIGN KEY (`EquipmentID`) REFERENCES `Equipment` (`EquipmentID`),
   CONSTRAINT `inventorychecks_ibfk_3` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +323,7 @@ CREATE TABLE `NetworkSettings` (
   PRIMARY KEY (`NetworkID`),
   KEY `EquipmentID` (`EquipmentID`),
   CONSTRAINT `networksettings_ibfk_1` FOREIGN KEY (`EquipmentID`) REFERENCES `Equipment` (`EquipmentID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -318,7 +344,7 @@ CREATE TABLE `Software` (
   KEY `EquipmentID` (`EquipmentID`),
   CONSTRAINT `software_ibfk_1` FOREIGN KEY (`DeveloperID`) REFERENCES `SoftwareDevelopers` (`DeveloperID`),
   CONSTRAINT `software_ibfk_2` FOREIGN KEY (`EquipmentID`) REFERENCES `Equipment` (`EquipmentID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -332,7 +358,7 @@ CREATE TABLE `SoftwareDevelopers` (
   `DeveloperID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
   PRIMARY KEY (`DeveloperID`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -346,7 +372,7 @@ CREATE TABLE `Statuses` (
   `StatusID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
   PRIMARY KEY (`StatusID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -358,9 +384,23 @@ DROP TABLE IF EXISTS `TypesConsumables`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `TypesConsumables` (
   `TypeConsumablesID` int NOT NULL AUTO_INCREMENT,
-  `Type` varchar(255) DEFAULT NULL,
+  `Type` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`TypeConsumablesID`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `TypesEquipment`
+--
+
+DROP TABLE IF EXISTS `TypesEquipment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TypesEquipment` (
+  `TypeEquipmentID` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`TypeEquipmentID`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,7 +423,7 @@ CREATE TABLE `Users` (
   `Address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`UserID`),
   UNIQUE KEY `Login` (`Login`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -395,4 +435,4 @@ CREATE TABLE `Users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-26 22:53:51
+-- Dump completed on 2025-03-27 21:09:35

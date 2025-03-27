@@ -176,7 +176,6 @@ namespace UP02.Helpers
         /// <summary>
         /// Обрабатывает ошибку подключения к базе данных.
         /// </summary>
-        /// <param name="databaseContext">Контекст базы данных.</param>
         /// <param name="exMessage">Сообщение об ошибке.</param>
         public static void ErrorConnection(string exMessage)
         {
@@ -198,7 +197,6 @@ namespace UP02.Helpers
                 WrongConnections = true;
                 string logEntry = $"{DateTime.Now}: {exMessage}{Environment.NewLine}\tОшибка при обращении к бд: {exs}";
                 File.AppendAllText("ef_errors.log", logEntry);
-
             }
 
             if (WrongConnections) {
