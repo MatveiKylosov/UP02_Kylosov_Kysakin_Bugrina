@@ -49,6 +49,9 @@
                 <Label Content="Количество" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
                 <TextBox x:Name="QuantityTB" Margin="0,0,0,10" Height="30" Background="White"/>
 
+                <Label Content="Ответственный:" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
+                <ComboBox x:Name="ResponsibleUserCB" Margin="0,0,0,10" Height="30" Background="White"/>
+
                 <Label Content="Временный ответственный:" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
                 <ComboBox x:Name="TempResponsibleUserCB" Margin="0,0,0,10" Height="30" Background="White"/>
 

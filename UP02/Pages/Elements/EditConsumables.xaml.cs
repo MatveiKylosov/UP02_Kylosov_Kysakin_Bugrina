@@ -33,6 +33,7 @@ namespace UP02.Pages.Elements
     /// </summary>
     public partial class EditConsumables : Page, IRecordSuccess
     {
+        int? CurrentResponsibleUser;
         int? ConsumableID = null;
         int TypeConsumablesID = -1;
         bool TypeConsumableChange = false;
@@ -64,12 +65,13 @@ namespace UP02.Pages.Elements
             users.Insert(0, new Users { UserID = -1, LastName = "", FirstName = "Отсутствует", MiddleName = "" });
             typesConsumables.Insert(0, new TypesConsumables { TypeConsumablesID = -1, Type = "Отсутствует" });
 
-            TempResponsibleUserCB.ItemsSource = users;
+            TempResponsibleUserCB.ItemsSource = ResponsibleUserCB.ItemsSource = users;
+
+            TempResponsibleUserCB.DisplayMemberPath = ResponsibleUserCB.DisplayMemberPath = "FullName";
+            TempResponsibleUserCB.SelectedValuePath = ResponsibleUserCB.SelectedValuePath = "UserID";
+
+
             TypesConsumablesCB.ItemsSource = typesConsumables;
-
-            TempResponsibleUserCB.DisplayMemberPath = "FullName";
-            TempResponsibleUserCB.SelectedValuePath = "UserID";
-
             TypesConsumablesCB.DisplayMemberPath = "Type";
             TypesConsumablesCB.SelectedValuePath = "TypeConsumablesID";
 
@@ -81,12 +83,15 @@ namespace UP02.Pages.Elements
                 ReceiptDateTB.Text = ReceiptDateTB.Text = consumable.ReceiptDate?.ToString("dd.MM.yyyy") ?? "";
                 QuantityTB.Text = consumable.Quantity?.ToString() ?? "";
                 imageBytes = consumable.Photo;
+                CurrentResponsibleUser = consumable.ResponsibleUserID;
+
                 if (consumable.TypeConsumablesID.HasValue) 
                 {
                     UpdateDataAndTypesConsumablesCB(consumable.TypeConsumablesID.Value);
                 }
             }
 
+            ResponsibleUserCB.SelectedValue = consumable?.ResponsibleUserID ?? -1;
             TempResponsibleUserCB.SelectedValue = consumable?.TempResponsibleUserID ?? -1;
             TypesConsumablesCB.SelectedValue = TypeConsumablesID = consumable?.TypeConsumablesID ?? -1;
         }
@@ -105,7 +110,7 @@ namespace UP02.Pages.Elements
             incorrect |= UIHelper.ValidateField(ReceiptDateTB.Text, 10, "Дата получения", isRequired: false);
 
             // Проверка количества (должно быть целым числом не меньше 0)
-            if (!String.IsNullOrEmpty(QuantityTB.Text) && (!int.TryParse(QuantityTB.Text, out int quantity) || quantity < 0))
+            if (!String.IsNullOrEmpty(QuantityTB.Text) && ( !int.TryParse(QuantityTB.Text, out int quantity) || quantity < 0) )
             {
                 incorrect = true;
                 MessageBox.Show("Количество должно быть неотрицательным числом.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -139,6 +144,23 @@ namespace UP02.Pages.Elements
                 consumableToUpdate.TempResponsibleUser = null;
             }
 
+            UIHelper.SetEntity<Users, int?>(
+                ResponsibleUserCB,
+                id => consumableToUpdate.ResponsibleUserID = id,
+                entity => consumableToUpdate.ResponsibleUser = entity,
+                u => u.UserID,
+                -1,
+                databaseContext.Users);
+
+            // Временный ответственный пользователь
+            UIHelper.SetEntity<Users, int?>(
+                TempResponsibleUserCB,
+                id => consumableToUpdate.TempResponsibleUserID = id,
+                entity => consumableToUpdate.TempResponsibleUser = entity,
+                u => u.UserID,
+                -1,
+                databaseContext.Users);
+
             var typesConsumables = TypesConsumablesCB.SelectedItem as TypesConsumables;
             if (typesConsumables != null && typesConsumables.TypeConsumablesID != -1)
             {
@@ -153,8 +175,14 @@ namespace UP02.Pages.Elements
             }
 
             consumableToUpdate.ReceiptDate = DateTime.Parse(ReceiptDateTB.Text, CultureInfo.GetCultureInfo("ru-RU"));
-            consumableToUpdate.Quantity = int.Parse(QuantityTB.Text);
-            consumableToUpdate.Photo = imageBytes;
+            if (!string.IsNullOrEmpty(QuantityTB.Text))
+            {
+                consumableToUpdate.Quantity = int.Parse(QuantityTB.Text);
+            }
+            else
+                consumableToUpdate.Quantity = null;
+
+                consumableToUpdate.Photo = imageBytes;
         }
 
         private void SaveChangesClick(object sender, RoutedEventArgs e)
@@ -220,10 +248,21 @@ namespace UP02.Pages.Elements
                     }
                 }
 
-
                 consumableFromdatabaseContext ??= new Consumables();
 
                 UpdatesFromControls(consumableFromdatabaseContext, databaseContext);
+
+                if (ConsumableID.HasValue && CurrentResponsibleUser.HasValue && CurrentResponsibleUser.Value != consumableFromdatabaseContext.ResponsibleUserID)
+                {
+                    var newHistory = new ConsumableResponsibleHistory
+                    {
+                        ConsumableID = consumableFromdatabaseContext.ConsumableID,
+                        ChangeDate = DateTime.Now.Date,
+                        OldUserID = CurrentResponsibleUser.Value
+                    };
+                    databaseContext.ConsumableResponsibleHistory.Add(newHistory);
+                    databaseContext.SaveChanges();
+                }
 
                 if (!ConsumableID.HasValue)
                 {

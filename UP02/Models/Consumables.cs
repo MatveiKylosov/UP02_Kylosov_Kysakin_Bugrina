@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace UP02.Models
 {
@@ -18,10 +19,14 @@ namespace UP02.Models
         [Column(TypeName = "LONGBLOB")]
         public byte[]? Photo { get; set; }
         public int? Quantity { get; set; }
+        public int? ResponsibleUserID { get; set; }
         public int? TempResponsibleUserID { get; set; }
         public int? TypeConsumablesID { get; set; }
 
+        public virtual Users? ResponsibleUser { get; set; }
         public virtual Users? TempResponsibleUser { get; set; }
         public virtual TypesConsumables? TypeConsumables { get; set; }
+
+        public string ReceiptDateString => ReceiptDate.HasValue ? ReceiptDate.Value.ToString("dd.MM.yyyy") : "";
     }
 }

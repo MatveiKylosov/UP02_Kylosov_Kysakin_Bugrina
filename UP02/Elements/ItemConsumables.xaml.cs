@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -33,7 +34,9 @@ namespace UP02.Elements
         /// <summary>
         /// Событие, вызываемое при удалении записи.
         /// </summary>
-        public event EventHandler RecordDelete;        public event EventHandler RecordUpdate;
+        public event EventHandler RecordDelete; 
+        
+        public event EventHandler RecordUpdate;
         /// <summary>
         /// Объект расходного материала.
         /// </summary>
@@ -41,7 +44,9 @@ namespace UP02.Elements
         /// <summary>
         /// Коллекция характеристик с их значениями.
         /// </summary>
-        ObservableCollection<CharacteristicViewModel> CharacteristicsWithValues = new ObservableCollection<CharacteristicViewModel> ();
+        ObservableCollection<CharacteristicViewModel> CharacteristicsWithValues = new ObservableCollection<CharacteristicViewModel>();
+
+        List<ConsumableResponsibleHistory> consumableResponsibleHistory = new List<ConsumableResponsibleHistory>();
 
         /// <summary>
         /// Флаг, указывающий, если элемент должен быть только для просмотра (без возможности редактировать).
@@ -54,14 +59,26 @@ namespace UP02.Elements
         /// <param name="Consumable">Объект расходного материала.</param>
         /// <param name="ViewElement">Если true, элементы управления для обновления скрыты.</param>
         public ItemConsumables(Consumables Consumable, bool ViewElement = false)
-        { 
-            InitializeComponent(); 
+        {
+            InitializeComponent();
             this.Consumable = Consumable;
             this.DataContext = Consumable;
             CharacteristicsWithValues = new ObservableCollection<CharacteristicViewModel>(update());
             CharacteristisDG.ItemsSource = CharacteristicsWithValues;
+            using var databaseContext = new DatabaseContext(); 
+            try
+            {
+                consumableResponsibleHistory = databaseContext.ConsumableResponsibleHistory.Where(x => x.ConsumableID == Consumable.ConsumableID).Include(a => a.OldUser).ToList();
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                return;
+            }
 
-            if (ViewElement) {
+            responsibleUserHistory.ItemsSource = consumableResponsibleHistory;
+            if (ViewElement)
+            {
                 UpdateButton.Height = 0;
                 UpdateButton.Width = 0;
             }
@@ -109,13 +126,13 @@ namespace UP02.Elements
 
                     databaseContext.SaveChanges();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     UIHelper.ErrorConnection(databaseContext, ex.Message);
                     return;
                 }
             }
-            
+
             RecordDelete?.Invoke(this, e);
         }
 
@@ -150,6 +167,19 @@ namespace UP02.Elements
             {
                 Photo.Source = UIHelper.ByteArrayToImage(Consumable.Photo);
             }
+
+            using var databaseContext = new DatabaseContext();
+            try
+            {
+                consumableResponsibleHistory = databaseContext.ConsumableResponsibleHistory.Where(x => x.ConsumableID == Consumable.ConsumableID).Include(a => a.OldUser).ToList();
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ErrorConnection(databaseContext, ex.Message);
+                return;
+            }
+
+            responsibleUserHistory.ItemsSource = consumableResponsibleHistory;
 
             RecordUpdate?.Invoke(Consumable, EventArgs.Empty);
         }
@@ -190,7 +220,7 @@ namespace UP02.Elements
                     )
                     .ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 UIHelper.ErrorConnection(databaseContext, ex.Message);
             }

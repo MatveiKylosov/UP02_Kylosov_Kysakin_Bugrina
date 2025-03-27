@@ -132,8 +132,6 @@ namespace UP02.Pages.Main
             using var databaseContext = new DatabaseContext();
             try
             {
-
-
                 var user = databaseContext.Users.FirstOrDefault(
                     x => x.Login == LoginUser.Text && x.Password == PasswordUser.Password);
 

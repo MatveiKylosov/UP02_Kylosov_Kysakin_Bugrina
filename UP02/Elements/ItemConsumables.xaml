@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UP02.Elements"
              mc:Ignorable="d" 
-             d:DesignHeight="270"
+             d:DesignHeight="370"
              d:DesignWidth="800">
 
     <UserControl.Resources>
@@ -59,6 +59,7 @@
                     <RowDefinition Height="1.5*"/>
                     <RowDefinition Height="1.5*"/>
                     <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
                 </Grid.RowDefinitions>
                 <Grid>
                     <Label x:Name="NameLabel" Content="{Binding Name}" FontWeight="Bold" FontSize="15" Foreground="#0060AC" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -67,14 +68,20 @@
                     <Label Content="Описание:" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center"/>
                     <Label x:Name="DescriptionLabel" Content="{Binding Description}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="80,0,0,0"/>
                 </Grid>
+
                 <Grid Grid.Row="2">
+                    <Label Content="Ответственный:" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center"/>
+                    <Label x:Name="ResponsibleUserLabel" Content="{Binding ResponsibleUser.FullName}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="185,0,0,0"/>
+                </Grid>
+
+                <Grid Grid.Row="3">
                     <Label Content="Временно-ответственный:" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center"/>
                     <Label x:Name="TempResponsibleUserLabel" Content="{Binding TempResponsibleUser.FullName}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="185,0,0,0"/>
                 </Grid>
 
                 <Grid Grid.Row="4">
                     <Label Content="Поступление:" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center"/>
-                    <Label x:Name="ReceiptDateLabel" Content="{Binding ReceiptDate}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="103,0,0,0"/>
+                    <Label x:Name="ReceiptDateLabel" Content="{Binding ReceiptDateString}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="103,0,0,0"/>
                 </Grid>
 
                 <Grid Grid.Row="6">
@@ -100,7 +107,22 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
+
+                <DataGrid Grid.Row="7" x:Name="responsibleUserHistory" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" IsReadOnly="True" MaxHeight="300" MinWidth="340" Grid.Column="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Дата" Binding="{Binding ChageDateString}" MinWidth="100" MaxWidth="100"/>
+                        <DataGridTextColumn Header="Ответственный" Binding="{Binding OldUser.FullName}" MinWidth="120" MaxWidth="120">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
             </Grid>
+
             <Grid Grid.Column="2">
                 <Button Click="DeleteClick" Background="#9EA1A2" HorizontalAlignment="Right" Margin="0,23,36,0" VerticalAlignment="Top" Height="45" Width="45" Style="{StaticResource RoundedButtonStyle}">
                     <Image Source="pack://application:,,,/Images/delete_icon.png" Height="42" Width="41" />

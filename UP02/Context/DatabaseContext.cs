@@ -17,6 +17,8 @@ namespace UP02.Context
     /// </summary>
     public class DatabaseContext : DbContext
     {
+        public DbSet<ConsumableResponsibleHistory> ConsumableResponsibleHistory { get; set; }
+
         /// <summary>
         /// Таблица направлений.
         /// </summary>

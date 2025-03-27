@@ -48,23 +48,28 @@
 
             <StackPanel Margin="5">
                 <TextBlock Text="Времено ответственный" Foreground="White"/>
+                <ComboBox x:Name="ResponsibleUserCB" SelectionChanged="SortCB_Changed"/>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock Text="Времено ответственный" Foreground="White"/>
                 <ComboBox x:Name="TempResponsibleUserCB" SelectionChanged="SortCB_Changed"/>
             </StackPanel>
 
             <StackPanel Margin="5">
                 <TextBlock Text="Поступил после" Foreground="White"/>
                 <DatePicker x:Name="AfterReceiptDate" Width="100"
-                    SelectedDateChanged="ReceiptDate_SelectedDateChanged"
-                    TextInput="ReceiptDate_TextInput"
-                    LostFocus="ReceiptDate_LostFocus"/>
+                    SelectedDateChanged="AfterReceiptDate_SelectedDateChanged"
+                    TextInput="AfterReceiptDate_TextInput"
+                    LostFocus="AfterReceiptDate_LostFocus"/>
             </StackPanel>
 
             <StackPanel Margin="5">
                 <TextBlock Text="Поступил до" Foreground="White"/>
                 <DatePicker x:Name="BeforeReceiptDate" Width="100"
-                    SelectedDateChanged="ReceiptDate_SelectedDateChanged"
-                    TextInput="ReceiptDate_TextInput"
-                    LostFocus="ReceiptDate_LostFocus"/>
+                    SelectedDateChanged="BeforeReceiptDate_SelectedDateChanged"
+                    TextInput="BeforeReceiptDate_TextInput"
+                    LostFocus="BeforeReceiptDate_LostFocus"/>
             </StackPanel>
         </StackPanel>
 

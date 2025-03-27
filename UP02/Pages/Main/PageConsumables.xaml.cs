@@ -28,7 +28,9 @@ namespace UP02.Pages.Main
             using var databaseContext = new DatabaseContext();
             try
             {
-                OriginalRecords = databaseContext.Consumables.Include(a => a.TempResponsibleUser)
+                OriginalRecords = databaseContext.Consumables
+                            .Include(a => a.ResponsibleUser)
+                            .Include(a => a.TempResponsibleUser)
                             .Include(a => a.TypeConsumables)
                             .ToList();
             }
@@ -44,14 +46,15 @@ namespace UP02.Pages.Main
             users.Insert(0, new Users { UserID = -1, LastName = "", FirstName = "Отсутствует", MiddleName = "" });
             types.Insert(0, new TypesConsumables { TypeConsumablesID = -1, Type = "Отсутствует" });
 
-            TempResponsibleUserCB.ItemsSource = users;
-            TempResponsibleUserCB.DisplayMemberPath = "FullName";
-            TempResponsibleUserCB.SelectedValuePath = "UserID";
+            ResponsibleUserCB.ItemsSource  = TempResponsibleUserCB.ItemsSource = users;
+            ResponsibleUserCB.DisplayMemberPath  = TempResponsibleUserCB.DisplayMemberPath = "FullName";
+            ResponsibleUserCB.SelectedValuePath = TempResponsibleUserCB.SelectedValuePath = "UserID";
 
             TypeConsumablesCB.ItemsSource = types;
             TypeConsumablesCB.DisplayMemberPath = "Type";
             TypeConsumablesCB.SelectedValuePath = "TypeConsumablesID";
 
+            ResponsibleUserCB.SelectedValue = -1;
             TempResponsibleUserCB.SelectedValue = -1;
             TypeConsumablesCB.SelectedValue = -1;
 
@@ -113,6 +116,12 @@ namespace UP02.Pages.Main
                 CurrentList = CurrentList.Where(x => x.TempResponsibleUserID == selectedTempResponsible.Value).ToList();
             }
 
+            int? selectedResponsible = ResponsibleUserCB.SelectedValue as int?;
+            if (selectedResponsible.HasValue && selectedResponsible.Value != -1)
+            {
+                CurrentList = CurrentList.Where(x => x.ResponsibleUserID == selectedResponsible.Value).ToList();
+            }
+
             int? selectedTypeConsumablesCB = TypeConsumablesCB.SelectedValue as int?;
             if (selectedTypeConsumablesCB.HasValue && selectedTypeConsumablesCB.Value != -1)
             {
@@ -133,14 +142,15 @@ namespace UP02.Pages.Main
 
             if (AfterReceiptDate.SelectedDate.HasValue)
             {
-                DateTime afterReceiptDate = AfterReceiptDate.SelectedDate.Value;
-                CurrentList = CurrentList.Where(x => x.ReceiptDate >= afterReceiptDate).ToList();
+                DateTime afterReceiptDate = AfterReceiptDate.SelectedDate.Value.Date;
+                CurrentList = CurrentList.Where(x => x.ReceiptDate.HasValue && x.ReceiptDate.Value.Date >= afterReceiptDate).ToList();
             }
 
             if (BeforeReceiptDate.SelectedDate.HasValue)
             {
-                DateTime beforeReceiptDate = BeforeReceiptDate.SelectedDate.Value;
-                CurrentList = CurrentList.Where(x => x.ReceiptDate <= beforeReceiptDate).ToList();
+                DateTime beforeReceiptDate = BeforeReceiptDate.SelectedDate.Value.Date;
+                CurrentList = CurrentList
+                    .Where(x => x.ReceiptDate.HasValue && x.ReceiptDate.Value.Date <= beforeReceiptDate).ToList();
             }
 
             ContentPanel.Children.Clear();
@@ -166,7 +176,7 @@ namespace UP02.Pages.Main
         /// <summary>
         /// Обработчик изменения даты в поле выбора даты получения, выполняет сортировку.
         /// </summary>
-        private void ReceiptDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        private void AfterReceiptDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             SortRecord();
         }
@@ -174,7 +184,7 @@ namespace UP02.Pages.Main
         /// <summary>
         /// Обработчик ввода текста в поле выбора даты получения, выполняет сортировку.
         /// </summary>
-        private void ReceiptDate_TextInput(object sender, TextCompositionEventArgs e)
+        private void AfterReceiptDate_TextInput(object sender, TextCompositionEventArgs e)
         {
             SortRecord();
         }
@@ -182,7 +192,28 @@ namespace UP02.Pages.Main
         /// <summary>
         /// Обработчик потери фокуса в поле выбора даты получения, выполняет сортировку.
         /// </summary>
-        private void ReceiptDate_LostFocus(object sender, RoutedEventArgs e)
+        private void AfterReceiptDate_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SortRecord();
+        }
+
+        private void BeforeReceiptDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SortRecord();
+        }
+
+        /// <summary>
+        /// Обработчик ввода текста в поле выбора даты получения, выполняет сортировку.
+        /// </summary>
+        private void BeforeReceiptDate_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            SortRecord();
+        }
+
+        /// <summary>
+        /// Обработчик потери фокуса в поле выбора даты получения, выполняет сортировку.
+        /// </summary>
+        private void BeforeReceiptDate_LostFocus(object sender, RoutedEventArgs e)
         {
             SortRecord();
         }
