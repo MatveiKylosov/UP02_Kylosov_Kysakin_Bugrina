@@ -29,6 +29,7 @@ namespace UP02.Pages.Elements
             List<Directions> _Directions = new List<Directions>();
             List<EquipmentModels> _Models = new List<EquipmentModels>();
             List<Audiences> _Audiences = new List<Audiences>();
+            List<TypesEquipment> _TypesEquipment = new List<TypesEquipment>();
 
             using var databaseContext = new DatabaseContext();
             try
@@ -38,6 +39,7 @@ namespace UP02.Pages.Elements
                 _Directions = databaseContext.Directions.ToList();
                 _Models = databaseContext.EquipmentModels.ToList();
                 _Audiences = databaseContext.Audiences.ToList();
+                _TypesEquipment = databaseContext.TypesEquipment.ToList();
             }
             catch (Exception ex)
             {
@@ -50,6 +52,7 @@ namespace UP02.Pages.Elements
             _Directions.Insert(0, new Directions { DirectionID = -1, Name = "Отсутствует" });
             _Models.Insert(0, new EquipmentModels { ModelID = -1, Name = "Отсутствует" });
             _Audiences.Insert(0, new Audiences { AudienceID = -1, Name = "Отсутствует" });
+            _TypesEquipment.Insert(0, new TypesEquipment { TypeEquipmentID = -1, Name = "Отсутствует" });
 
 
             ResponsibleUserCB.ItemsSource = _Users;
@@ -59,6 +62,7 @@ namespace UP02.Pages.Elements
             DirectionCB.ItemsSource = _Directions;
             ModelCB.ItemsSource = _Models;
             AudienceCB.ItemsSource = _Audiences;
+            TypesEquipmentCB.ItemsSource = _TypesEquipment;
 
             TempResponsibleUserCB.DisplayMemberPath = ResponsibleUserCB.DisplayMemberPath = "FullName";
             TempResponsibleUserCB.SelectedValuePath = ResponsibleUserCB.SelectedValuePath = "UserID";
@@ -67,11 +71,13 @@ namespace UP02.Pages.Elements
             DirectionCB.DisplayMemberPath = "Name";
             ModelCB.DisplayMemberPath = "Name";
             AudienceCB.DisplayMemberPath = "Name";
+            TypesEquipmentCB.DisplayMemberPath = "Name";
 
             StatusCB.SelectedValuePath = "StatusID";
             DirectionCB.SelectedValuePath = "DirectionID";
             ModelCB.SelectedValuePath = "ModelID";
             AudienceCB.SelectedValuePath = "AudienceID";
+            TypesEquipmentCB.SelectedValuePath = "TypeEquipmentID";
 
             ResponsibleUserCB.SelectedValue = -1;
             TempResponsibleUserCB.SelectedValue = -1;
@@ -79,6 +85,7 @@ namespace UP02.Pages.Elements
             StatusCB.SelectedValue = -1;
             ModelCB.SelectedValue = -1;
             AudienceCB.SelectedValue = -1;
+            TypesEquipmentCB.SelectedValue = -1;
 
             if (equipment != null)
             {
@@ -90,6 +97,7 @@ namespace UP02.Pages.Elements
                 DirectionCB.SelectedValue = equipment.DirectionID;
                 StatusCB.SelectedValue = equipment.StatusID;
                 ModelCB.SelectedValue = equipment.ModelID;
+                TypesEquipmentCB.SelectedValue = equipment.TypeEquipmentID;
                 TextBoxComment.Text = equipment.Comment;
                 AudienceCB.SelectedValue = equipment.AudienceID;
                 TextBoxInventoryNumber.Text = equipment.InventoryNumber;
@@ -193,6 +201,14 @@ namespace UP02.Pages.Elements
                 a => a.AudienceID,
                 -1,
                 databaseContext.Audiences);
+
+            UIHelper.SetEntity<TypesEquipment, int?>(
+                TypesEquipmentCB,
+                id => equipmentToUpdate.TypeEquipmentID = id,
+                entity => equipmentToUpdate.TypeEquipment = entity,
+                a => a.TypeEquipmentID,
+                -1,
+                databaseContext.TypesEquipment);
         }
 
         private void SaveChangesClick(object sender, RoutedEventArgs e)
@@ -202,8 +218,6 @@ namespace UP02.Pages.Elements
             using var databaseContext = new DatabaseContext();
             try
             {
-
-
                 var equipmentFromdatabaseContext = EquipmentID.HasValue
                     ? databaseContext.Equipment.FirstOrDefault(a => a.EquipmentID == EquipmentID.Value)
                     : null;

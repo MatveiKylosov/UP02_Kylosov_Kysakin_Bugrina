@@ -26,6 +26,7 @@ namespace UP02.Models
         public int? ModelID { get; set; }
         public string? Comment { get; set; }
         public int? AudienceID { get; set; }
+        public int? TypeEquipmentID { get; set; }
 
         public virtual Users? ResponsibleUser { get; set; }
         public virtual Users? TempResponsibleUser { get; set; }
@@ -33,5 +34,6 @@ namespace UP02.Models
         public virtual Statuses? Status { get; set; }
         public virtual EquipmentModels? Model { get; set; }
         public virtual Audiences? Audience { get; set; }
+        public virtual TypesEquipment? TypeEquipment { get; set; }
     }
 }

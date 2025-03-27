@@ -113,6 +113,11 @@ namespace UP02.Context
         public DbSet<Software> Software { get; set; }
 
         /// <summary>
+        /// Таблица типов оборудования.
+        /// </summary>
+        public DbSet<TypesEquipment> TypesEquipment { get; set; }
+
+        /// <summary>
         /// Конфигурирует параметры подключения к базе данных.
         /// </summary>
         /// <param name="optionsBuilder">Объект для настройки параметров подключения.</param>

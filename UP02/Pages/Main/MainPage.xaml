@@ -43,17 +43,18 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden" FlowDirection="RightToLeft" >
             <StackPanel Margin="5">
-                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Аудитории" Click="AudiencesButton_Click"/>
-                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Расходники" Click="ConsumablesButton_Click"/>
-                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Направления" Click="DirectionsButton_Click"/>
                 <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Оборудование" Click="EquipmentButton_Click"/>
-                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Расходники оборудования" Click="EquipmentConsumablesButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Аудитории" Click="AudiencesButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Направления" Click="DirectionsButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Статусы" Click="StatusesButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Тип оборудования" Click="TypesEquipment_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Расходники" Click="ConsumablesButton_Click"/>
                 <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Модели оборудования" Click="EquipmentModelsButton_Click"/>
+                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Расходники оборудования" Click="EquipmentConsumablesButton_Click"/>
                 <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Инвентаризация" Click="InventoriesButton_Click"/>
                 <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Сетевые настройки" Click="NetworkSettingsButton_Click"/>
                 <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Программное обеспечение" Click="SoftwareButton_Click"/>
                 <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Разработчики ПО" Click="SoftwareDevelopersButton_Click"/>
-                <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Статусы" Click="StatusesButton_Click"/>
                 <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Тип расходников" Click="TypesConsumablesButton_Click"/>
                 <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Пользователи" Click="UsersButton_Click"/>
                 <Button Background="#FFEAEBEC" Foreground="#FF257DC3" FontWeight="Bold" Style="{StaticResource RoundedButtonStyle}" Margin="5" Height="40" Content="Импорт" Click="ImportButton_Click"/>

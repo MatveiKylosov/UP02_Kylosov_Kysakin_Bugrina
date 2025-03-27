@@ -42,6 +42,11 @@
                 <TextBlock Text="Направление" Foreground="White"/>
                 <ComboBox x:Name="EquipmentDirectionsCB" SelectionChanged="SortCB_Changed"/>
             </StackPanel>
+            
+            <StackPanel Margin="5">
+                <TextBlock Text="Тип оборудования" Foreground="White"/>
+                <ComboBox x:Name="TypesEquipmentCB" SelectionChanged="SortCB_Changed"/>
+            </StackPanel>
         </StackPanel>
 
         <ScrollViewer Margin="0,105,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">

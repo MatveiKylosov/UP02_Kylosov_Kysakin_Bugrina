@@ -9,7 +9,7 @@ namespace UP02.DocumentProcessing
     /// <summary>
     /// Класс для представления информации об импорте направлений.
     /// </summary>
-    public class DirectionImport
+    public class TypesEquipmentImport
     {
         /// <summary>
         /// Номер строки в документе.
@@ -19,7 +19,7 @@ namespace UP02.DocumentProcessing
         /// <summary>
         /// Название направления.
         /// </summary>
-        public string DirectionName;
+        public string TypesEquipmentName;
 
         /// <summary>
         /// Количество единиц данного направления.

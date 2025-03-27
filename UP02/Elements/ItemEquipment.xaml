@@ -61,6 +61,7 @@
                         <RowDefinition Height="1.5*"/>
                         <RowDefinition Height="1.5*"/>
                         <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="1.5*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
 
@@ -91,8 +92,13 @@
                         <Label Content="Модель: " FontSize="15" Foreground="#0060AC"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
                         <Label Content="{Binding Model.Name}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="60,0,0,0" Grid.ColumnSpan="2"/>
                     </Grid>
-
-                    <Grid Grid.Row="6" MaxHeight="150" MaxWidth="650" HorizontalAlignment="Left" Margin="0,0,0,10">
+                    
+                    <Grid Grid.Row="6">
+                        <Label Content="Тип: " FontSize="15" Foreground="#0060AC"  VerticalAlignment="Center" Grid.ColumnSpan="2" />
+                        <Label Content="{Binding TypeEquipment.Name}" FontSize="15" Foreground="#0060AC" VerticalAlignment="Center" Margin="60,0,0,0" Grid.ColumnSpan="2"/>
+                    </Grid>
+                    
+                    <Grid Grid.Row="7" MaxHeight="150" MaxWidth="650" HorizontalAlignment="Left" Margin="0,0,0,10">
                         <Label Content="Комментарий: " FontSize="15" Foreground="#0060AC"  VerticalAlignment="Top" />
 
                         <TextBox Margin="125,5, 50,0" VerticalAlignment="Top" 
@@ -151,10 +157,10 @@
                         <Image Source="pack://application:,,,/Images/update_icon.png" Height="42" Width="41" />
                     </Button>
                     <Button Click="ExportAcceptanceClick" Background="#9EA1A2" Height="45" Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" Width="45">
-                        <Image Source="pack://application:,,,/Images/update_icon.png" Height="42" Width="41" />
+                        <Image Source="pack://application:,,,/Images/document_icon.png" Height="42" Width="41" />
                     </Button>
                     <Button Click="ExportTemporarilyAcceptanceClick" Background="#9EA1A2" Height="45" Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" Width="45">
-                        <Image Source="pack://application:,,,/Images/update_icon.png" Height="42" Width="41" />
+                        <Image Source="pack://application:,,,/Images/document_icon.png" Height="42" Width="41" />
                     </Button>
                 </StackPanel>
             </Grid>

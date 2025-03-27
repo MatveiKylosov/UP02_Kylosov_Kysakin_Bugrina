@@ -36,20 +36,23 @@
                 <Button Height="25" Content="Выбрать картинку" Click="SelectAndSaveImage_Click" Margin="0,0,0,5" 
                         Background="#FF718A9E" Foreground="White" FontWeight="Bold" FontSize="12" Style="{StaticResource RoundedButtonStyle}"/>
 
-                <TextBlock Text="Наименование" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold" FontSize="12"/>
+                <TextBlock Text="Наименование" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
                 <TextBox x:Name="TextBoxName" Margin="0,0,0,5" Height="25" Background="White" FontSize="12"/>
 
-                <Label Content="Ответственный:" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold" FontSize="12"/>
+                <Label Content="Ответственный:" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
                 <ComboBox x:Name="ResponsibleUserCB" Margin="0,0,0,5" Height="25" Background="White" FontSize="12"/>
 
-                <Label Content="Временный ответственный:" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold" FontSize="12"/>
+                <Label Content="Временный ответственный:" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
                 <ComboBox x:Name="TempResponsibleUserCB" Margin="0,0,0,5" Height="25" Background="White" FontSize="12"/>
 
-                <Label Content="Направление:" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold" FontSize="12"/>
+                <Label Content="Направление:" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
                 <ComboBox x:Name="DirectionCB" Margin="0,0,0,5" Height="25" Background="White" FontSize="12"/>
 
                 <Label Content="Статус:" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
                 <ComboBox x:Name="StatusCB" Margin="0,0,0,5" Height="25" Background="White" FontSize="12"/>
+
+                <Label Content="Тип:" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
+                <ComboBox x:Name="TypesEquipmentCB" Margin="0,0,0,5" Height="25" Background="White" FontSize="12"/>
 
                 <Label Content="Модель:" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
                 <ComboBox x:Name="ModelCB" Margin="0,0,0,5" Height="25" Background="White" FontSize="12"/>
@@ -58,13 +61,13 @@
                 <TextBox x:Name="TextBoxComment" Margin="0,0,0,5" Height="50" Background="White" 
                          TextWrapping="Wrap" AcceptsReturn="True" FontSize="12"/>
 
-                <Label Content="Аудитория" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold" FontSize="12"/>
+                <Label Content="Аудитория" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
                 <ComboBox x:Name="AudienceCB" Margin="0,0,0,5" Height="25" Background="White" FontSize="12"/>
 
-                <Label Content="Инвентарный номер" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold" FontSize="12"/>
+                <Label Content="Инвентарный номер" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
                 <TextBox x:Name="TextBoxInventoryNumber" Margin="0,0,0,5" Height="25" Background="White" FontSize="12"/>
 
-                <Label Content="Стоимость" Margin="0,0,0,2" Foreground="Black" FontWeight="Bold" FontSize="12"/>
+                <Label Content="Стоимость" Margin="0,0,0,2" Foreground="#0060AC" FontWeight="Bold" FontSize="12"/>
                 <TextBox x:Name="TextBoxCost" Margin="0,0,0,10" Height="25" Background="White" FontSize="12"/>
             </StackPanel>
         </ScrollViewer>

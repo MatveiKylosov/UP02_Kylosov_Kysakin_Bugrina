@@ -33,6 +33,7 @@ namespace UP02.Pages.Main
                     .Include(a => a.Status)
                     .Include(a => a.Model)
                     .Include(a => a.Audience)
+                    .Include(a => a.TypeEquipment)
                     .ToList();
             }
             catch
@@ -73,12 +74,19 @@ namespace UP02.Pages.Main
                 .Distinct()
                 .ToList();
 
+            List<TypesEquipment> equipmentTypesEquipment = OriginalRecords
+                .Select(a => a.TypeEquipment)
+                .Where(a => a != null)
+                .Distinct()
+                .ToList();
+
 
             users.Insert(0, new Users { UserID = -1, LastName = "", FirstName = "Отсутствует", MiddleName = "" });
             equipmentModels.Insert(0, new EquipmentModels { ModelID = -1, Name = "Отсутствует" });
             equipmentStatuses.Insert(0, new Statuses { StatusID = -1, Name = "Отсутствует" });
             equipmentDirections.Insert(0, new Directions { DirectionID = -1, Name = "Отсутствует" });
             equipmentAudiences.Insert(0, new Audiences { AudienceID = -1, ShortName = "Отсутствует" });
+            equipmentTypesEquipment.Insert(0, new TypesEquipment { TypeEquipmentID = -1, Name = "Отсутствует" });
 
             ResponsibleUserCB.ItemsSource = users;
             TempResponsibleUserCB.ItemsSource = users;
@@ -86,6 +94,7 @@ namespace UP02.Pages.Main
             EquipmentStatusesCB.ItemsSource = equipmentStatuses;
             EquipmentAudiencesCB.ItemsSource = equipmentAudiences;
             EquipmentDirectionsCB.ItemsSource = equipmentDirections;
+            TypesEquipmentCB.ItemsSource = equipmentTypesEquipment;
 
             TempResponsibleUserCB.DisplayMemberPath = ResponsibleUserCB.DisplayMemberPath = "FullName";
             TempResponsibleUserCB.SelectedValuePath = ResponsibleUserCB.SelectedValuePath = "UserID";
@@ -102,12 +111,16 @@ namespace UP02.Pages.Main
             EquipmentDirectionsCB.DisplayMemberPath = "Name";
             EquipmentDirectionsCB.SelectedValuePath = "DirectionID";
 
+            TypesEquipmentCB.DisplayMemberPath = "Name";
+            TypesEquipmentCB.SelectedValuePath = "TypeEquipmentID";
+
             TempResponsibleUserCB.SelectedValue = -1;
             ResponsibleUserCB.SelectedValue = -1;
             EquipmentModelsCB.SelectedValue = -1;
             EquipmentStatusesCB.SelectedValue = -1;
             EquipmentDirectionsCB.SelectedValue = -1;
             EquipmentAudiencesCB.SelectedValue = -1;
+            TypesEquipmentCB.SelectedValue = -1;
 
             CurrentList = OriginalRecords;
 
@@ -182,6 +195,11 @@ namespace UP02.Pages.Main
                 CurrentList = CurrentList.Where(x => x.AudienceID == selectedAudience.Value).ToList();
             }
 
+            int? selectedTypeEquipment = TypesEquipmentCB.SelectedValue as int?;
+            if (selectedTypeEquipment.HasValue && selectedTypeEquipment.Value != -1)
+            {
+                CurrentList = CurrentList.Where(x => x.TypeEquipmentID == selectedTypeEquipment.Value).ToList();
+            }
 
             string searchQuery = SearchField.Text.Trim();
             if (!string.IsNullOrEmpty(searchQuery))
@@ -197,7 +215,9 @@ namespace UP02.Pages.Main
                         (!string.IsNullOrEmpty(x.Comment) && x.Comment.IndexOf(searchQuery, StringComparison.CurrentCultureIgnoreCase) >= 0) ||
                         (x.Audience != null && x.Audience.Name.IndexOf(searchQuery, StringComparison.CurrentCultureIgnoreCase) >= 0) ||
                         x.InventoryNumber.IndexOf(searchQuery, StringComparison.CurrentCultureIgnoreCase) >= 0 ||
-                        (x.Cost.HasValue && x.Cost.Value.ToString().IndexOf(searchQuery, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                        (x.Cost.HasValue && x.Cost.Value.ToString().IndexOf(searchQuery, StringComparison.CurrentCultureIgnoreCase) >= 0)||
+                        (x.TypeEquipment != null && x.TypeEquipment.Name.IndexOf(searchQuery, StringComparison.CurrentCultureIgnoreCase) >= 0)
+
                     ).ToList();
             }
 

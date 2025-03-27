@@ -35,7 +35,8 @@ namespace UP02.Pages.Main
             EquipmentLocationHistory,
             EquipmentResponsibleHistory,
             InventoryChecks,
-            NetworkSettings
+            NetworkSettings,
+            TypesEquipment
         }
 
         private Tables ActiveTable;
@@ -62,6 +63,7 @@ namespace UP02.Pages.Main
                 { Tables.EquipmentConsumables, LoadEquipmentConsumables},
                 { Tables.Inventories, LoadInventories },
                 { Tables.Statuses, LoadStatuses },
+                {Tables.TypesEquipment, LoadTypesEquipment }
             };
         }
 
@@ -157,6 +159,11 @@ namespace UP02.Pages.Main
             ContentFrame.Navigate (new PageEquipment());
         }
 
+
+        private void LoadTypesEquipment()
+        {
+            ContentFrame.Navigate(new PageTypesEquipment());
+        }
         private void LoadStatuses() 
         {
             ContentFrame.Navigate(new PageStatuses());
@@ -184,7 +191,11 @@ namespace UP02.Pages.Main
         private void SoftwareDevelopersButton_Click(object sender, RoutedEventArgs e)
             => LoadTable(Tables.SoftwareDevelopers);
         private void UsersButton_Click(object sender, RoutedEventArgs e)
-            => LoadTable(Tables.Users);
+                        => LoadTable(Tables.Users);
+
+
+        private void TypesEquipment_Click(object sender, RoutedEventArgs e)
+            => LoadTable(Tables.TypesEquipment);
 
         private void SoftwareButton_Click(object sender, RoutedEventArgs e)
             => LoadTable(Tables.Software);
@@ -268,32 +279,32 @@ namespace UP02.Pages.Main
                         databaseContext.Attach(databaseUser);
 
                         // Обработка направлений для пользователя
-                        foreach (var direction in user.Directions)
+                        foreach (var TypesEquipment in user.TypesEquipments)
                         {
                             // Ищем направление по имени
-                            var databaseDirection = databaseContext.Directions.FirstOrDefault(x => x.Name == direction.DirectionName);
-                            if (databaseDirection == null)
+                            var databaseTypesEquipment = databaseContext.TypesEquipment.FirstOrDefault(x => x.Name == TypesEquipment.TypesEquipmentName);
+                            if (databaseTypesEquipment == null)
                             {
                                 // Если направление не найдено, создаём новое
-                                databaseDirection = new Directions { Name = direction.DirectionName };
-                                databaseContext.Directions.Add(databaseDirection);
+                                databaseTypesEquipment = new TypesEquipment { Name = TypesEquipment.TypesEquipmentName };
+                                databaseContext.TypesEquipment.Add(databaseTypesEquipment);
                                 databaseContext.SaveChanges();
                             }
                             else
                             {
-                                databaseContext.Attach(databaseDirection);
+                                databaseContext.Attach(databaseTypesEquipment);
                             }
 
                             // Обработка оборудования для каждого направления
-                            foreach (var equipment in direction.Equipments)
+                            foreach (var equipment in TypesEquipment.Equipments)
                             {
                                 for (int i = 0; i < equipment.Quantity; i++)
                                 {
                                     var equipmentForDatabase = new Equipment
                                     {
                                         Name = equipment.Name,
-                                        DirectionID = databaseDirection.DirectionID,
-                                        Direction = databaseDirection,
+                                        TypeEquipmentID = databaseTypesEquipment.TypeEquipmentID,
+                                        TypeEquipment = databaseTypesEquipment,
                                         InventoryNumber = equipment.InventoryNumber,
                                         ResponsibleUserID = databaseUser.UserID,
                                         ResponsibleUser = databaseUser,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UP02.Models;
 
 namespace UP02.DocumentProcessing
 {
@@ -29,6 +30,6 @@ namespace UP02.DocumentProcessing
         /// <summary>
         /// Список направлений, связанных с пользователем.
         /// </summary>
-        public List<DirectionImport> Directions;
+        public List<TypesEquipmentImport> TypesEquipments;
     }
 }

@@ -77,23 +77,23 @@ namespace UP02.DocumentProcessing
                 var user = UsersRows[i];
 
                 var nextUserRow = i + 1 == UsersRows.Count ? LastRow : UsersRows[i + 1].Row;
-                user.Directions = GetDirectionsRow(worksheet, user.Row, nextUserRow);
-                var directions = user.Directions;
-                for (int j = 0; j < directions.Count; j++)
+                user.TypesEquipments = GetTypesEquipmentsRow(worksheet, user.Row, nextUserRow);
+                var TypesEquipments = user.TypesEquipments;
+                for (int j = 0; j < TypesEquipments.Count; j++)
                 {
-                    var direction = directions[j];
-                    var nextDirectionRow = j + 1 == directions.Count ? nextUserRow : directions[j + 1].Row;
-                    direction.Equipments = GetEquipmentRow(worksheet, direction.Row, nextDirectionRow);
+                    var TypesEquipment = TypesEquipments[j];
+                    var nextTypesEquipmentRow = j + 1 == TypesEquipments.Count ? nextUserRow : TypesEquipments[j + 1].Row;
+                    TypesEquipment.Equipments = GetEquipmentRow(worksheet, TypesEquipment.Row, nextTypesEquipmentRow);
                 }
             }
 
             foreach (var user in UsersRows)
             {
                 var userQuantity = user.Quantity;
-                var directionQuantity = user.Directions.Select(e => e.Quantity).Sum();
-                var equipmentQuantity = user.Directions.Select(e => e.Equipments.Select(x => x.Quantity).Sum()).Sum();
+                var TypesEquipmentQuantity = user.TypesEquipments.Select(e => e.Quantity).Sum();
+                var equipmentQuantity = user.TypesEquipments.Select(e => e.Equipments.Select(x => x.Quantity).Sum()).Sum();
 
-                if (!(userQuantity == directionQuantity && directionQuantity == equipmentQuantity))
+                if (!(userQuantity == TypesEquipmentQuantity && TypesEquipmentQuantity == equipmentQuantity))
                 {
                     Debug.WriteLine("Ошибка: отсутсвует соответсвие по количеству.");
                     Debug.WriteLine("--- Закончил тест чтения файла Excel ---");
@@ -102,10 +102,10 @@ namespace UP02.DocumentProcessing
             }
 
             var countUsers = UsersRows.Count;
-            var countDirection = UsersRows.Select(e => e.Directions.Count).Sum();
-            var countEquipment = UsersRows.Select(e => e.Directions.Select(f => f.Equipments.Count).Sum()).Sum();
+            var countTypesEquipment = UsersRows.Select(e => e.TypesEquipments.Count).Sum();
+            var countEquipment = UsersRows.Select(e => e.TypesEquipments.Select(f => f.Equipments.Count).Sum()).Sum();
 
-            if (countUsers + countDirection + countEquipment + 2 != LastRow - 1)
+            if (countUsers + countTypesEquipment + countEquipment + 2 != LastRow - 1)
             {
                 Debug.WriteLine("Ошибка: количество строк с данными и шапкой не совпадает с концом пустой строки файл.");
                 return ("количество строк с данными и шапкой не совпадает с концом пустой строки файл.", null);
@@ -140,30 +140,30 @@ namespace UP02.DocumentProcessing
         /// <summary>
         /// Получает список направлений для пользователя.
         /// </summary>
-        private List<DirectionImport> GetDirectionsRow(ExcelWorksheet worksheet, int UserRow, int EndUserRows)
+        private List<TypesEquipmentImport> GetTypesEquipmentsRow(ExcelWorksheet worksheet, int UserRow, int EndUserRows)
         {
-            List<DirectionImport> Directions = new List<DirectionImport>();
+            List<TypesEquipmentImport> TypesEquipments = new List<TypesEquipmentImport>();
 
             for (int i = UserRow + 1; i < EndUserRows; i++)
             {
-                if (CheckDirectionCell(worksheet, i, out string DirectionName, out int Quantity))
+                if (CheckTypesEquipmentCell(worksheet, i, out string TypesEquipmentName, out int Quantity))
                 {
-                    var Direction = new DirectionImport { Row = i, DirectionName = DirectionName, Quantity = Quantity };
-                    Directions.Add(Direction);
+                    var TypesEquipment = new TypesEquipmentImport { Row = i, TypesEquipmentName = TypesEquipmentName, Quantity = Quantity };
+                    TypesEquipments.Add(TypesEquipment);
                 }
             }
 
-            return Directions;
+            return TypesEquipments;
         }
 
         /// <summary>
         /// Получает список оборудования для направления.
         /// </summary>
-        private List<EquipmentImport> GetEquipmentRow(ExcelWorksheet worksheet, int DirectionRow, int EndDirectionRows)
+        private List<EquipmentImport> GetEquipmentRow(ExcelWorksheet worksheet, int TypesEquipmentRow, int EndTypesEquipmentRows)
         {
             List<EquipmentImport> equipmentsImport = new List<EquipmentImport>();
 
-            for (int i = DirectionRow + 1; i < EndDirectionRows; i++)
+            for (int i = TypesEquipmentRow + 1; i < EndTypesEquipmentRows; i++)
             {
                 var id = worksheet.Cells[$"A{i}"].Text;
                 var name = worksheet.Cells[$"B{i}"].Text;
@@ -247,22 +247,22 @@ namespace UP02.DocumentProcessing
         /// <summary>
         /// Проверяет корректность данных в ячейке направления.
         /// </summary>
-        private bool CheckDirectionCell(ExcelWorksheet worksheet, int i, out string DirectionName, out int quantity)
+        private bool CheckTypesEquipmentCell(ExcelWorksheet worksheet, int i, out string TypesEquipmentName, out int quantity)
         {
-            var cellDirection = worksheet.Cells[$"A{i}"];
-            if (!cellDirection.Merge)
+            var cellTypesEquipment = worksheet.Cells[$"A{i}"];
+            if (!cellTypesEquipment.Merge)
             {
-                DirectionName = "";
+                TypesEquipmentName = "";
                 quantity = -1;
                 return false;
             }
 
-            string mergedAddress = worksheet.MergedCells[cellDirection.Start.Row, cellDirection.Start.Column];
+            string mergedAddress = worksheet.MergedCells[cellTypesEquipment.Start.Row, cellTypesEquipment.Start.Column];
             var mergedCells = worksheet.Cells[mergedAddress];
 
             if (mergedCells.Start.Column != 1 || mergedCells.End.Column != 3)
             {
-                DirectionName = "";
+                TypesEquipmentName = "";
                 quantity = -1;
                 return false;
             }
@@ -270,23 +270,23 @@ namespace UP02.DocumentProcessing
             string text = mergedCells.Text.Trim();
             if (string.IsNullOrEmpty(text))
             {
-                DirectionName = "";
+                TypesEquipmentName = "";
                 quantity = -1;
                 return false;
             }
 
-            DirectionName = text;
+            TypesEquipmentName = text;
 
             var cellQuantity = worksheet.Cells[$"D{i}"];
             if (!int.TryParse(cellQuantity.Text, out int quan))
             {
-                DirectionName = "";
+                TypesEquipmentName = "";
                 quantity = -1;
                 return false;
             }
             else if (quan <= 0)
             {
-                DirectionName = "";
+                TypesEquipmentName = "";
                 quantity = -1;
                 return false;
             }
