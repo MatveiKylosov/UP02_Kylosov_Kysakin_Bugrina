@@ -1,0 +1,47 @@
+﻿<Page x:Class="UP02.Pages.Elements.EditDirections"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UP02.Pages.Elements"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EditDirections" Background="White">
+    <Page.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                             BorderBrush="{TemplateBinding BorderBrush}" 
+                             BorderThickness="1" 
+                             CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel>
+            <TextBlock Text="Наименование" Margin="0,0,0,3" Foreground="Black" FontWeight="Bold"/>
+            <TextBox x:Name="Name" Margin="0,0,0,10" Height="30"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15" Grid.Row="1">
+            <Button Click="SaveChangesClick" Background="#FF718A9E" Style="{StaticResource RoundedButtonStyle}" Margin="0,0,15,0" Width="60" Height="40">
+                <Image Source="pack://application:,,,/Images/update_icon.png" Height="30" Width="30"/>
+            </Button>
+            <Button Click="UndoСhangesClick" Background="#FF718A9E" Style="{StaticResource RoundedButtonStyle}" Width="60" Height="40">
+                <Image Source="pack://application:,,,/Images/back_icon.png" Height="30" Width="30"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>
